@@ -1,0 +1,71 @@
+Building Type,residential,
+,,
+Envelope,,
+Window to wall ratio,% of wall,40
+Roof Thermal Transmittance (U-value),W/m2K,0.6
+Wall Thermal Transmittance (U-value),W/m2K,0.8
+Window Thermal Transmittance (U-value),W/m2K,4.8
+Window Solar Transmittance (g-value),%,85
+,,
+Internal Loads,,
+HVAC Efficiency,W_th/W_in,2.30
+Temperature setpoint,deg C,28
+Peak appliance load,W/m2,5
+Peak lighting load,W/m2,6
+Peak hot water demand,l/(person*day),40
+,,
+Usage Pattern,,
+Electrified space,% surface,80
+Conditioned space,% surface,35
+Net GFA,% surface,90
+,,
+Usage Pattern,,
+Day,Hour,Occupancy (p/100m^2)
+Weekday,0,2.50
+Weekday,1,2.50
+Weekday,2,2.50
+Weekday,3,2.50
+Weekday,4,2.50
+Weekday,5,2.50
+Weekday,6,2.50
+Weekday,7,2.25
+Weekday,8,1.00
+Weekday,9,0.63
+Weekday,10,0.63
+Weekday,11,0.63
+Weekday,12,0.63
+Weekday,13,0.63
+Weekday,14,0.63
+Weekday,15,0.63
+Weekday,16,0.75
+Weekday,17,1.25
+Weekday,18,2.25
+Weekday,19,2.25
+Weekday,20,2.25
+Weekday,21,2.50
+Weekday,22,2.50
+Weekday,23,2.50
+Weekend,0,2.50
+Weekend,1,2.50
+Weekend,2,2.50
+Weekend,3,2.50
+Weekend,4,2.50
+Weekend,5,2.50
+Weekend,6,2.50
+Weekend,7,2.38
+Weekend,8,1.63
+Weekend,9,0.81
+Weekend,10,0.63
+Weekend,11,0.63
+Weekend,12,0.63
+Weekend,13,0.63
+Weekend,14,0.63
+Weekend,15,0.63
+Weekend,16,0.69
+Weekend,17,1.00
+Weekend,18,1.75
+Weekend,19,2.25
+Weekend,20,2.25
+Weekend,21,2.38
+Weekend,22,2.50
+Weekend,23,2.50

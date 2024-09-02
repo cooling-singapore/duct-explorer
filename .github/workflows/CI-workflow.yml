@@ -1,0 +1,27 @@
+name: Lint, Test and Build DUCT apps
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Install Packages
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn nx affected --target=lint --parallel
+      - name: Test
+        run: yarn nx affected --target=test --parallel
+      - name: Build
+        run: yarn nx affected --target=build --parallel --prod

@@ -1,0 +1,288 @@
+{
+  "name": "duct",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/duct/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/duct",
+        "index": "apps/duct/src/index.html",
+        "main": "apps/duct/src/main.tsx",
+        "polyfills": "apps/duct/src/polyfills.ts",
+        "tsConfig": "apps/duct/tsconfig.app.json",
+        "assets": ["apps/duct/src/favicon.ico", "apps/duct/src/assets"],
+        "styles": ["apps/duct/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nx/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "development": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.dev.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "outputHashing": "all",
+          "sourceMap": true,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "local:infrarisk": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.infrarisk.ts"
+            }
+          ],
+          "optimization": false,
+          "outputHashing": "all",
+          "sourceMap": true,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "staging": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.staging.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "uat": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.uat.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "legacy-uat": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.legacy-uat.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "development-infrarisk": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.dev.infrarisk.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "staging-infrarisk": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.staging.infrarisk.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "staging-explorer-aws": {
+          "fileReplacements": [
+            {
+              "replace": "apps/duct/src/environments/environment.ts",
+              "with": "apps/duct/src/environments/environment.staging.aws.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "4mb",
+              "maximumError": "5mb"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "duct:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "duct:build:production",
+          "hmr": false
+        },
+        "development": {
+          "buildTarget": "duct:build:development"
+        },
+        "local": {
+          "buildTarget": "duct:build:local"
+        },
+        "local-infrarisk": {
+          "buildTarget": "duct:build:local:infrarisk"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/duct"],
+      "options": {
+        "jestConfig": "apps/duct/jest.config.ts"
+      }
+    },
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/duct/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "duct:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "duct:serve:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
