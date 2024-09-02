@@ -10,5 +10,4 @@ export const environment = {
   APP_LOGO: './assets/logo-light.png',
   APP_DESCRIPTION: 'Enabling Climate-Informed Urban Planning and Design',
   APP_LANDING_IMAGE: './assets/login.jpeg',
-  IS_INFRARISK: false,
 };

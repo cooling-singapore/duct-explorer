@@ -80,11 +80,8 @@ export function CreateSceneWorkflow() {
       return copy;
     });
 
-    // TODO: Use feature when endpoint is ready
-    if (!environment.IS_INFRARISK) {
-      // switch to ZoneVersionSeletion because we dont need area selection in build for now
-      setMapToZoneSelection();
-    }
+    // switch to ZoneVersionSeletion because we dont need area selection in build for now
+    setMapToZoneSelection();
 
     return () => {
       // reset map state when leaving page
@@ -194,92 +191,90 @@ export function CreateSceneWorkflow() {
       </Grid>
       <Box my={2}>
         <Stepper activeStep={activeStep} orientation="vertical">
-          {!environment.IS_INFRARISK && (
-            <Step>
-              <StepLabel>Select Urban Geometry Configuration</StepLabel>
-              <StepContent>
-                {sceneContext.context.sceneType === SceneType.Islandwide ? (
-                  <>
-                    <Typography variant="caption" gutterBottom display="block">
-                      This feature allows users to reconfigure the city with new
-                      development plans in selected districts or zones. The
-                      information used are the building footprints and building
-                      height.
-                    </Typography>
-                    <Typography variant="caption">
-                      The highlighted land plots contain multiple design options
-                      that you have uploaded. Click on each of the plots to
-                      select an alternate plan for this area.
-                    </Typography>
-                    <Grid
-                      container
-                      spacing={1}
-                      sx={{ my: 1 }}
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Box sx={{ ...colorBox, ...multipleDesigns }}></Box>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="caption">
-                          Multiple design options available
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item>
-                        <Box sx={{ ...colorBox, ...alternateDesign }}></Box>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="caption">
-                          Alternate design selected
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </>
-                ) : (
-                  <Typography variant="caption">
-                    Use the selection tool to select the area you wish to
-                    configure and click next.
+          <Step>
+            <StepLabel>Select Urban Geometry Configuration</StepLabel>
+            <StepContent>
+              {sceneContext.context.sceneType === SceneType.Islandwide ? (
+                <>
+                  <Typography variant="caption" gutterBottom display="block">
+                    This feature allows users to reconfigure the city with new
+                    development plans in selected districts or zones. The
+                    information used are the building footprints and building
+                    height.
                   </Typography>
-                )}
-
-                {sceneContext.context.zoneVersions.length > 0 && (
-                  <Box my={4}>
-                    <Typography
-                      sx={{
-                        fontSize: theme.typography.pxToRem(15),
-                        fontWeight: theme.typography.fontWeightRegular,
-                      }}
-                    >
-                      Zone Configurations
-                    </Typography>
-                    <List dense disablePadding>
-                      {sceneContext.context.zoneVersions.map((zone) => (
-                        <ListItem key={zone.zoneId}>
-                          <ListItemText
-                            primary={zone.zoneName}
-                            secondary={zone.alternateName}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                )}
-
-                <Box my={4}>
-                  <Button
-                    data-testid="next"
-                    variant="contained"
-                    color="secondary"
-                    onClick={exitGeometrySelection}
+                  <Typography variant="caption">
+                    The highlighted land plots contain multiple design options
+                    that you have uploaded. Click on each of the plots to select
+                    an alternate plan for this area.
+                  </Typography>
+                  <Grid
+                    container
+                    spacing={1}
+                    sx={{ my: 1 }}
+                    alignItems="center"
                   >
-                    Next
-                  </Button>
+                    <Grid item>
+                      <Box sx={{ ...colorBox, ...multipleDesigns }}></Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="caption">
+                        Multiple design options available
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                      <Box sx={{ ...colorBox, ...alternateDesign }}></Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="caption">
+                        Alternate design selected
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </>
+              ) : (
+                <Typography variant="caption">
+                  Use the selection tool to select the area you wish to
+                  configure and click next.
+                </Typography>
+              )}
+
+              {sceneContext.context.zoneVersions.length > 0 && (
+                <Box my={4}>
+                  <Typography
+                    sx={{
+                      fontSize: theme.typography.pxToRem(15),
+                      fontWeight: theme.typography.fontWeightRegular,
+                    }}
+                  >
+                    Zone Configurations
+                  </Typography>
+                  <List dense disablePadding>
+                    {sceneContext.context.zoneVersions.map((zone) => (
+                      <ListItem key={zone.zoneId}>
+                        <ListItemText
+                          primary={zone.zoneName}
+                          secondary={zone.alternateName}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
                 </Box>
-              </StepContent>
-            </Step>
-          )}
+              )}
+
+              <Box my={4}>
+                <Button
+                  data-testid="next"
+                  variant="contained"
+                  color="secondary"
+                  onClick={exitGeometrySelection}
+                >
+                  Next
+                </Button>
+              </Box>
+            </StepContent>
+          </Step>
           <Step>
             <StepLabel
               optional={
@@ -311,11 +306,9 @@ export function CreateSceneWorkflow() {
               )}
 
               <Box my={4}>
-                {!environment.IS_INFRARISK && (
-                  <Button onClick={backToZoneSelection} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                )}
+                <Button onClick={backToZoneSelection} sx={{ mr: 1 }}>
+                  Back
+                </Button>
                 <Button
                   variant="contained"
                   color="secondary"

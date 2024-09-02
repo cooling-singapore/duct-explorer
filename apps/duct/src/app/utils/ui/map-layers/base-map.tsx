@@ -28,9 +28,7 @@ export function BaseMap() {
     let basemapGallery: Expand | undefined = undefined;
 
     mapRef = new Map({
-      basemap: environment.IS_INFRARISK
-        ? 'streets-night-vector'
-        : 'dark-gray-vector',
+      basemap: 'dark-gray-vector',
       layers: [],
     });
 

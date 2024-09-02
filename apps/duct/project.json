@@ -79,28 +79,6 @@
             }
           ]
         },
-        "local:infrarisk": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.infrarisk.ts"
-            }
-          ],
-          "optimization": false,
-          "outputHashing": "all",
-          "sourceMap": true,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
         "staging": {
           "fileReplacements": [
             {
@@ -167,50 +145,7 @@
             }
           ]
         },
-        "development-infrarisk": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.dev.infrarisk.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
-        "staging-infrarisk": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.staging.infrarisk.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
+
         "staging-explorer-aws": {
           "fileReplacements": [
             {
@@ -252,9 +187,6 @@
         },
         "local": {
           "buildTarget": "duct:build:local"
-        },
-        "local-infrarisk": {
-          "buildTarget": "duct:build:local:infrarisk"
         }
       },
       "defaultConfiguration": "local"
