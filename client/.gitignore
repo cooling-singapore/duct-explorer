@@ -1,0 +1,9 @@
+node_modules
+dist
+apps/auth-server/.env
+.public/
+apps/duct-e2e/cypress.env.json
+.nx
+
+# Other common ignores
+.DS_Store

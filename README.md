@@ -1,2 +1,0 @@
-# duct-explorer
-DUCT Explorer

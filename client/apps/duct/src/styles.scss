@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@arcgis/core/assets/esri/themes/light/main.css';
+
+body {
+  margin: 0;
+}
+
+:root {
+  // override root level font set in arcgis
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
