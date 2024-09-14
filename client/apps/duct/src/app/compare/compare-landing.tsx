@@ -45,6 +45,7 @@ import AnalysisSelect from '../utils/ui/components/analysis-select';
 import ScaleSelect from '../utils/ui/components/scale-select';
 import { filterMapResults, filterPanelResults } from '../utils/utils';
 import { resultCompareReducer } from './compare.reducer';
+import CompareAOISelect from './form-components/compare-aoi-select';
 import ReviewVisualizationComparison from './review-visualization-comparison';
 
 const INITIAL_STATE = {
@@ -63,6 +64,7 @@ const INITIAL_STATE = {
   formComplete: false,
   selectedResult: undefined,
   panelResults: undefined,
+  aoi_obj_id: undefined,
 };
 
 function CompareLanding() {
@@ -192,7 +194,10 @@ function CompareLanding() {
           analysisId0: state.leftRun.analysis_id,
           analysisId1: state.rightRun.analysis_id,
           resultId: state.selectedResult?.name || '',
-          formParams: state.paramForm,
+          formParams:
+            state.scale === AnalysisScale.MESO
+              ? { ...state.paramForm, display_aoi_obj_id: state.aoi_obj_id }
+              : state.paramForm, // aoi id is only required for meso scale results
         };
 
         getResultMutation.mutate(props);
@@ -201,7 +206,10 @@ function CompareLanding() {
           analysisId0: state.leftRun.analysis_id,
           analysisId1: state.rightRun.analysis_id,
           resultId: state.selectedResult?.name || '',
-          formParams: state.paramForm,
+          formParams:
+            state.scale === AnalysisScale.MESO
+              ? { ...state.paramForm, display_aoi_obj_id: state.aoi_obj_id }
+              : state.paramForm, // aoi id is only required for meso scale results
           isLeft: true,
         };
         getDeltaResultMutation.mutate(props);
@@ -319,13 +327,25 @@ function CompareLanding() {
     });
   };
 
+  const handleAOIChange = (aoiId: string) => {
+    dispatch({
+      type: CompareActionKind.SET_AOI,
+      payload: {
+        aoi_obj_id: aoiId,
+      },
+    });
+  };
+
   const onDownloadClick = () => {
     if (state.leftRun && state.rightRun) {
       const props = {
         analysisId0: state.leftRun.analysis_id,
         analysisId1: state.rightRun.analysis_id,
         resultId: state.selectedResult?.name || '',
-        formParams: state.paramForm,
+        formParams:
+          state.scale === AnalysisScale.MESO
+            ? { ...state.paramForm, display_aoi_obj_id: state.aoi_obj_id }
+            : state.paramForm, // aoi id is only required for meso scale results
         fileName: `${state.leftRun.name}_${state.rightRun.name}_${state.selectedResult?.name}.${state.selectedResult?.export_format}`,
       };
       exportDeltaResultMutation.mutate(props);
@@ -501,6 +521,9 @@ function CompareLanding() {
                     ))}
                   </Select>
                 </FormControl>
+                {state.scale === AnalysisScale.MESO && (
+                  <CompareAOISelect onChange={handleAOIChange} />
+                )}
               </>
             )}
 

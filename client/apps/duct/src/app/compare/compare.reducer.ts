@@ -118,6 +118,12 @@ export const resultCompareReducer = (
         formComplete: false,
         selectedResult: undefined,
         panelResults: undefined,
+        aoi_obj_id: undefined,
+      };
+    case CompareActionKind.SET_AOI:
+      return {
+        ...state,
+        aoi_obj_id: payload.aoi_obj_id,
       };
     default:
       return state;

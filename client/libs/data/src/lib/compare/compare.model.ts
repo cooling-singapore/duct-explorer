@@ -22,6 +22,7 @@ export interface ResultCompareState {
   formComplete: boolean | undefined;
   selectedResult: AnalysisResult | undefined;
   panelResults: PanelVisualization[] | undefined;
+  aoi_obj_id: string | undefined;
 }
 
 export enum CompareActionKind {
@@ -36,6 +37,7 @@ export enum CompareActionKind {
   SET_SELECTED_RESULT = 'SET_SELECTED_RESULT',
   SET_PANEL_RESULT = 'SET_PANEL_RESULT',
   SET_SCALE = 'SET_SCALE',
+  SET_AOI = 'SET_AOI',
 }
 
 export interface CompareVisualization {
