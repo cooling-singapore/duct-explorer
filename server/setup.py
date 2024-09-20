@@ -24,10 +24,10 @@ setup(
     install_requires=requirements,
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/cooling-singapore/duct-servers',
+    url='https://github.com/cooling-singapore/duct-explorer',
     project_urls={
-        'Source': 'https://github.com/cooling-singapore/duct-servers',
-        'Tracker': 'https://github.com/cooling-singapore/duct-servers/issues',
+        'Source': 'https://github.com/cooling-singapore/duct-explorer',
+        'Tracker': 'https://github.com/cooling-singapore/duct-explorer/issues',
     },
     license='MIT',
     description=_locals["__description__"],
