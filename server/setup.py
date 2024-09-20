@@ -24,7 +24,7 @@ setup(
     install_requires=requirements,
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/cooling-singapore/duct-explorer',
+    url='https://github.com/cooling-singapore/duct-server',
     project_urls={
         'Source': 'https://github.com/cooling-singapore/duct-explorer',
         'Tracker': 'https://github.com/cooling-singapore/duct-explorer/issues',
