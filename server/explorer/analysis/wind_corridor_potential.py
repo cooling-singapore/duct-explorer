@@ -7,8 +7,8 @@ from typing import List, Dict
 from saas.rti.schemas import JobStatus
 from saas.sdk.base import SDKContext, SDKProductSpecification, LogMessage, SDKCDataObject
 
-from duct.dots import duct
-from duct.exceptions import DUCTRuntimeError
+from explorer.dots import duct
+from explorer.exceptions import DUCTRuntimeError
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
 from explorer.project import Project
 from explorer.renderer.base import hex_color_to_components

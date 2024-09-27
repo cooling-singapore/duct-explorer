@@ -1,10 +1,10 @@
-from duct.bdp import DUCTBaseDataPackageDB, bdp_spec
+from explorer.bdp.bdp import DUCTBaseDataPackageDB, bdp_spec
 from saas.core.logging import Logging
 from saas.sdk.cli.helpers import CLICommandGroup
 
-from explorer.cli import BDPCreate, BDPRemove, BDPList
+from explorer.cli.base import BDPCreate, BDPRemove, BDPList
 
-logger = Logging.get('duct.cli')
+logger = Logging.get('explorer.cli')
 
 
 class DUCTBDPCreate(BDPCreate):

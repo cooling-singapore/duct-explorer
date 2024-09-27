@@ -26,7 +26,7 @@ import sentry_sdk
 
 import explorer
 from explorer.analysis.base import Analysis
-from explorer.bdp import BaseDataPackageDB, GeometryType
+from explorer.bdp.base import BaseDataPackageDB, GeometryType
 from explorer.cache import CachedJSONObject
 from explorer.checks import CheckProjectExists, CheckUserHasAccess, CheckIfUser, CheckUserIsOwner
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, UploadDatasetResponseItem, \

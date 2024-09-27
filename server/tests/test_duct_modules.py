@@ -10,8 +10,8 @@ from tests.base_testcase import create_wd
 
 from saas.core.logging import Logging
 
-from duct.dots.duct_ahprofile import AnthropogenicHeatProfile
-from duct.modules.ah_module import heatmap_traffic, heatmap_power, heatmap_others, AnthropogenicHeatModule, \
+from explorer.dots.duct_ahprofile import AnthropogenicHeatProfile
+from explorer.module.ah_module import heatmap_traffic, heatmap_power, heatmap_others, AnthropogenicHeatModule, \
     raster_to_geojson, export_traffic, export_power, export_others
 from explorer.project import Project
 from explorer.schemas import ProjectInfo, BaseDataPackage, BoundingBox, Dimensions, ProjectMeta

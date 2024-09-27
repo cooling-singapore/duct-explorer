@@ -21,7 +21,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from tabulate import tabulate
 
-from explorer.bdp import BaseDataPackageDB
+from explorer.bdp.base import BaseDataPackageDB
 from explorer.dots.dot import ImportableDataObjectType, DataObjectType
 from explorer.project import DBAnalysisRun, DBAnalysisGroup, DBScene
 from explorer.renderer.base import NetworkRenderer
@@ -31,7 +31,7 @@ from explorer.analysis.base import Analysis
 from explorer.module.base import BuildModule
 from explorer.view.base import View
 
-logger = Logging.get('explorer.cli')
+logger = Logging.get('explorer.cli.base')
 
 Base = declarative_base()
 

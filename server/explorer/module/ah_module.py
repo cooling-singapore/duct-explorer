@@ -6,16 +6,16 @@ from typing import List, Tuple, Optional, Dict
 import numpy as np
 from saas.core.logging import Logging
 
-from duct.analyses.microscale_urban_climate import coord_4326_to_32648
+from explorer.analysis.microscale_urban_climate import coord_4326_to_32648
 from saas.sdk.base import SDKContext
 
-from duct.dots.duct_ahprofile import AnthropogenicHeatProfile
-from duct.renderer.ah_profile_renderer import AHProfileRenderer
+from explorer.dots.duct_ahprofile import AnthropogenicHeatProfile
+from explorer.renderer.ah_profile_renderer import AHProfileRenderer
 from explorer.module.base import BuildModule
 from explorer.project import Project
 from explorer.schemas import BuildModuleSpecification, BoundingBox, ExplorerRuntimeError
 
-logger = Logging.get('duct.modules.ah')
+logger = Logging.get('explorer.module.ah')
 
 
 def grid_overlap(feature: dict, bbox: BoundingBox, d_lat: float, d_lon: float) -> List[Tuple[int, int]]:

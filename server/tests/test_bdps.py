@@ -7,9 +7,9 @@ from saas.core.logging import Logging
 from saas.sdk.base import connect
 from tests.base_testcase import create_wd
 
-from duct.bdp import DUCTBaseDataPackageDB
-from duct.dots.duct_ahprofile import AnthropogenicHeatProfile
-from duct.dots.duct_lcz import LocalClimateZoneMap
+from explorer.bdp.bdp import DUCTBaseDataPackageDB
+from explorer.dots.duct_ahprofile import AnthropogenicHeatProfile
+from explorer.dots.duct_lcz import LocalClimateZoneMap
 from explorer.schemas import BoundingBox, Dimensions, BaseDataPackage
 
 Logging.initialise(logging.INFO)

@@ -13,16 +13,16 @@ from tests.base_testcase import create_wd, PortMaster
 
 from saas.core.logging import Logging
 
-from duct.analyses.building_energy_efficiency import BuildingEnergyEfficiency
-from duct.dots.duct_ahprofile import AnthropogenicHeatProfile
-from duct.dots.duct_bemcea import aggregate_ah_data, BuildingAnnualEnergy, BuildingAnnualGeneration, \
+from explorer.analysis.building_energy_efficiency import BuildingEnergyEfficiency
+from explorer.dots.duct_ahprofile import AnthropogenicHeatProfile
+from explorer.dots.duct_bemcea import aggregate_ah_data, BuildingAnnualEnergy, BuildingAnnualGeneration, \
     create_system_summary_charts, create_network_map, create_connected_building_map, create_pie_charts, \
     create_network_flow_chart
-from duct.dots.duct_bld_eff_std import BuildingEfficiencyStandard
-from duct.dots.duct_lcz import LocalClimateZoneMap
-from duct.dots.duct_nsc_variables import extract_nsc_data, NearSurfaceClimateVariableLinechart, \
+from explorer.dots.duct_bld_eff_std import BuildingEfficiencyStandard
+from explorer.dots.duct_lcz import LocalClimateZoneMap
+from explorer.dots.duct_nsc_variables import extract_nsc_data, NearSurfaceClimateVariableLinechart, \
     NearSurfaceClimateVariableRaster
-from duct.dots.duct_urban_geometries import UrbanGeometries
+from explorer.dots.duct_urban_geometries import UrbanGeometries
 from explorer.dots.dot import UploadPostprocessResult
 from explorer.geodb import GeometryType
 from explorer.project import Project

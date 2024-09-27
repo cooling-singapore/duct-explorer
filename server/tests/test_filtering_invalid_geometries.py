@@ -1,7 +1,7 @@
 import os.path
 import unittest
 import json
-from duct.bdp import DUCTBaseDataPackageDB
+from explorer.bdp.bdp import DUCTBaseDataPackageDB
 
 
 class GeometryFilteringTestCase(unittest.TestCase):

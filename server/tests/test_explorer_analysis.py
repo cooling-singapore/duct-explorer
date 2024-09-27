@@ -16,9 +16,9 @@ from saas.sdk.app.auth import UserDB, UserAuth
 from saas.sdk.base import SDKProcessor, connect, SDKCDataObject
 from tests.base_testcase import create_rnd_hex_string, create_wd
 
-from duct.analyses.mesoscale_urban_climate import normalise
+from explorer.analysis.mesoscale_urban_climate import normalise
 from explorer.analysis.base import Analysis, AnalysisStatus
-from explorer.bdp import BaseDataPackageDB
+from explorer.bdp.base import BaseDataPackageDB
 from explorer.dots.dot import ImportableDataObjectType, DataObjectType
 from explorer.module.base import BuildModule
 from explorer.proxy import ExplorerProxy
@@ -187,17 +187,17 @@ class ExplorerAnalysisTestCase(unittest.TestCase):
         # create Dashboard server and proxy
         cls._server = ExplorerServer(cls._server_address, cls._node_address, cls._wd_path)
 
-        for c in ExplorerServer.search_for_classes(['duct.analyses'], Analysis):
+        for c in ExplorerServer.search_for_classes(['explorer.analysis'], Analysis):
             cls._server.add_analysis_instance(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.modules'], BuildModule):
+        for c in ExplorerServer.search_for_classes(['explorer.module'], BuildModule):
             cls._server.add_build_module(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.dots'], DataObjectType):
+        for c in ExplorerServer.search_for_classes(['explorer.dots'], DataObjectType):
             if c != ImportableDataObjectType:
                 cls._server.add_data_object_type(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.renderer'], NetworkRenderer):
+        for c in ExplorerServer.search_for_classes(['explorer.renderer'], NetworkRenderer):
             cls._server.add_network_renderers(c())
 
         cls._server.startup()
@@ -486,7 +486,7 @@ class ExplorerAnalysisTestCase(unittest.TestCase):
         self._helper_upload_and_deploy("https://github.com/cooling-singapore/duct-fom",
                                        duct_fom_commit_id, "bem-cea/processor_eei", "default")
 
-        from duct.analyses.building_energy_efficiency import DEFAULT_WEATHER, DEFAULT_BUILDING_TYPE_MAP
+        from explorer.analysis.building_energy_efficiency import DEFAULT_WEATHER, DEFAULT_BUILDING_TYPE_MAP
         parameters = {
             "parameters": {
                 "building_type_mapping": DEFAULT_BUILDING_TYPE_MAP,

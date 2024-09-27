@@ -3,12 +3,12 @@ from typing import List
 from saas.core.logging import Logging
 from saas.sdk.base import SDKContext
 
-from duct.dots.duct_lcz import LocalClimateZoneMap
+from explorer.dots.duct_lcz import LocalClimateZoneMap
 from explorer.module.base import BuildModule
 from explorer.project import Project
 from explorer.schemas import BuildModuleSpecification
 
-logger = Logging.get('duct.modules.lulc')
+logger = Logging.get('explorer.module.lulc')
 
 
 class LandUseLandCoverModule(BuildModule):

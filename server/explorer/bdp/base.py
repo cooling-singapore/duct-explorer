@@ -18,7 +18,7 @@ from explorer.geodb import GeoFeature, GeometriesDB, GeometryType, GeoZoneConfig
 from explorer.schemas import ExplorerRuntimeError, ProjectInfo, BoundingBox, Dimensions, Network, NetworkNode, \
     NetworkLink, ZonesConfigurationMapping
 
-logger = Logging.get('explorer.bdp')
+logger = Logging.get('explorer.bdp.base')
 
 
 def _make_feature_collection(records: List[Union[GeoFeature, DBBuildingGeometries,

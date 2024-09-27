@@ -7,12 +7,12 @@ import numpy as np
 import pandas as pd
 from saas.core.logging import Logging
 
-from duct.exceptions import DUCTRuntimeError
-from duct.renderer.district_cooling_network_renderer import DistrictCoolingNetworkRenderer
+from explorer.exceptions import DUCTRuntimeError
+from explorer.renderer.district_cooling_network_renderer import DistrictCoolingNetworkRenderer
 from explorer.dots.dot import DataObjectType
 from explorer.renderer.buildings_renderer import BuildingConnectRenderer
 
-logger = Logging.get('duct.dots.bemcea')
+logger = Logging.get('explorer.dots.bemcea')
 
 
 def aggregate_ah_data(data_path: str) -> Dict[str, Dict[str, List[float]]]:

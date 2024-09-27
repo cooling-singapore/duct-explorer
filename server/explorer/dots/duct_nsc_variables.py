@@ -9,11 +9,11 @@ import rasterio
 from rasterio import CRS
 from saas.core.logging import Logging
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.dots.dot import DataObjectType
 from explorer.schemas import BoundingBox, Dimensions, WindVectorDetails
 
-logger = Logging.get('duct.dots.nsc_var')
+logger = Logging.get('explorer.dots.nsc_var')
 
 
 def extract_nsc_data(content_path: str, parameters: dict, key: str = '') -> (BoundingBox, Dimensions, np.ndarray):

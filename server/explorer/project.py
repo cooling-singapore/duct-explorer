@@ -27,9 +27,9 @@ from sqlalchemy import Column, String, create_engine, Integer
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy_json import NestedMutableJson
 
-from duct.dots.duct_lcz import LocalClimateZoneMap
+from explorer.dots.duct_lcz import LocalClimateZoneMap
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
-from explorer.bdp import ProjectGeometriesDB, GeometryType
+from explorer.bdp.base import ProjectGeometriesDB, GeometryType
 from explorer.cache import CachedJSONObject, Cache
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, DOTVerificationResult
 from explorer.geodb import GeoZoneConfiguration
@@ -42,7 +42,7 @@ from explorer.schemas import BaseDataPackage, ProjectInfo, ProjectMeta, Explorer
     AnalysesByScene, AnalysisGroup, AnalysesByConfiguration, AnalysisInfo, AnalysisResult, BoundingBox, Dimensions, \
     Network, ExplorerDatasetInfo, ZonesConfigurationMapping, ZoneConfiguration
 
-logger = Logging.get('duct_explorer.project')
+logger = Logging.get('explorer.project')
 
 Base = declarative_base()
 

@@ -12,12 +12,12 @@ import h5py
 import numpy as np
 from saas.sdk.base import SDKContext, SDKCDataObject, SDKProductSpecification, LogMessage
 
-from duct.dots import duct
-from duct.dots.duct_nsc_variables import NearSurfaceClimateVariableLinechart, NearSurfaceClimateVariableRaster, \
+from explorer.dots import duct
+from explorer.dots.duct_nsc_variables import NearSurfaceClimateVariableLinechart, NearSurfaceClimateVariableRaster, \
     WindVectorField
-from duct.exceptions import DUCTRuntimeError
-from duct.modules.ah_module import export_traffic, export_power, export_others
-from duct.modules.building_energy_model import BuildingEnergyEfficiencyModule
+from explorer.exceptions import DUCTRuntimeError
+from explorer.module.ah_module import export_traffic, export_power, export_others
+from explorer.module.building_energy_model import BuildingEnergyEfficiencyModule
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
 from explorer.project import Project
 from explorer.renderer.base import hex_color_to_components

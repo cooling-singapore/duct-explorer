@@ -5,13 +5,13 @@ from typing import Dict, List, Optional, Tuple
 from saas.core.helpers import get_timestamp_now
 from saas.core.logging import Logging
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, ImportTarget, DOTVerificationMessage, \
     DOTVerificationResult
 from explorer.geodb import GeometryType
 from explorer.schemas import ExplorerRuntimeError
 
-logger = Logging.get('duct.dots.bld_eff_std')
+logger = Logging.get('explorer.dots.bld_eff_std')
 
 
 class BuildingEfficiencyStandard(ImportableDataObjectType):
