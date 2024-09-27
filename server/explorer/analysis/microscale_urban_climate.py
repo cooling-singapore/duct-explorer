@@ -8,10 +8,10 @@ from saas.core.logging import Logging
 from saas.sdk.base import SDKContext, SDKProductSpecification, SDKCDataObject, LogMessage
 from shapely import Polygon
 
-from duct.dots.duct_nsc_variables import NearSurfaceClimateVariableRaster, NearSurfaceClimateVariableLinechart, \
+from explorer.dots.duct_nsc_variables import NearSurfaceClimateVariableRaster, NearSurfaceClimateVariableLinechart, \
     WindVectorField
-from duct.dots.duct_urban_geometries import UrbanGeometries
-from duct.exceptions import DUCTRuntimeError
+from explorer.dots.duct_urban_geometries import UrbanGeometries
+from explorer.exceptions import DUCTRuntimeError
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
 from explorer.geodb import GeometryType
 from explorer.project import Project
@@ -19,7 +19,7 @@ from explorer.renderer.base import hex_color_to_components
 from explorer.schemas import AnalysisGroup, Scene, AnalysisResult, ExplorerRuntimeError, AnalysisSpecification, \
     BoundingBox, AnalysisCompareResults
 
-logger = Logging.get('duct.analysis.microscale_urban_climate')
+logger = Logging.get('explorer.analysis.microscale_urban_climate')
 
 # LULC data is based on https://doi.org/10.3390/data4030116 / https://www.mdpi.com/2306-5729/4/3/116/htm
 # CODE  DESCRIPTION

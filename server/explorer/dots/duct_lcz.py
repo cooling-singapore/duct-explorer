@@ -8,13 +8,13 @@ from saas.core.helpers import get_timestamp_now
 
 from saas.core.logging import Logging
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, ImportTarget, DOTVerificationResult, \
     DOTVerificationMessage
 from explorer.geodb import GeometryType
 from explorer.schemas import BoundingBox, Dimensions
 
-logger = Logging.get('duct.dots.lcz')
+logger = Logging.get('explorer.dots.lcz')
 
 
 class LocalClimateZoneMap(ImportableDataObjectType):

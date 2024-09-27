@@ -9,9 +9,9 @@ from saas.dor.schemas import DataObject
 from saas.sdk.base import SDKContext, LogMessage, SDKProductSpecification, SDKCDataObject
 from shapely.geometry import Polygon
 
-from duct.dots.duct_bemcea import BuildingAHEmissions, aggregate_ah_data, BuildingAnnualEnergy, BuildingAnnualGeneration
-from duct.dots.duct_bld_eff_std import BuildingEfficiencyStandard
-from duct.exceptions import DUCTRuntimeError
+from explorer.dots.duct_bemcea import BuildingAHEmissions, aggregate_ah_data, BuildingAnnualEnergy, BuildingAnnualGeneration
+from explorer.dots.duct_bld_eff_std import BuildingEfficiencyStandard
+from explorer.exceptions import DUCTRuntimeError
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
 from explorer.cache import CachedJSONObject
 from explorer.geodb import GeometryType
@@ -19,7 +19,7 @@ from explorer.project import Project
 from explorer.schemas import AnalysisGroup, Scene, AnalysisResult, ExplorerRuntimeError, AnalysisSpecification, \
     ExplorerDatasetInfo, AnalysisCompareResults
 
-logger = Logging.get('duct.analysis.building_energy_efficiency')
+logger = Logging.get('explorer.analysis.building_energy_efficiency')
 
 PROJ_SYSTEM = "epsg:4326"
 MAXIMUM_BOUNDING_AREA_KM2 = 5.0

@@ -8,12 +8,12 @@ import rasterio
 from rasterio._base import DatasetBase
 from saas.core.logging import Logging
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.dots.dot import DataObjectType, DOTVerificationResult, DOTVerificationMessage
 from explorer.geodb import GeoFeature
 from explorer.schemas import BoundingBox, Dimensions
 
-logger = Logging.get('duct.dots')
+logger = Logging.get('explorer.dots')
 
 
 # TODO: the LU default mappings are specific to using ucm-wrf (which is fine because this analysis type makes

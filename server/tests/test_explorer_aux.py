@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 from saas.core.logging import Logging
 from tests.base_testcase import create_wd
 
-from duct.analyses.mesoscale_urban_climate import determine_time_period
+from explorer.analysis.mesoscale_urban_climate import determine_time_period
 
 from explorer.analysis.base import Analysis
 from explorer.cache import Cache

@@ -11,16 +11,16 @@ from saas.core.logging import Logging
 from saas.sdk.base import SDKContext
 from shapely.geometry import shape
 
-from duct.dots.duct_ahprofile import AnthropogenicHeatProfile
-from duct.dots.duct_lcz import LocalClimateZoneMap
-from duct.dots.duct_urban_geometries import UrbanGeometries
-from explorer.bdp import BaseDataPackageDB
+from explorer.dots.duct_ahprofile import AnthropogenicHeatProfile
+from explorer.dots.duct_lcz import LocalClimateZoneMap
+from explorer.dots.duct_urban_geometries import UrbanGeometries
+from explorer.bdp.base import BaseDataPackageDB
 from explorer.geodb import GeometryType
 from explorer.schemas import BaseDataPackage, ExplorerRuntimeError
 
 from geopandas import gpd
 
-logger = Logging.get('duct.bdp')
+logger = Logging.get('explorer.bdp.bdp')
 
 bdp_spec = {
     'city-admin-zones': {

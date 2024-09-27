@@ -8,7 +8,7 @@ from explorer.module.base import BuildModule
 from explorer.project import Project
 from explorer.schemas import BuildModuleSpecification
 
-logger = Logging.get('duct.modules.vegfrac')
+logger = Logging.get('explorer.module.vegfrac')
 
 
 def _make_marks(v_default: int, v_max: int) -> List[dict]:

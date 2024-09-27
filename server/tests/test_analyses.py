@@ -7,7 +7,7 @@ import unittest
 
 from tests.base_testcase import create_wd, create_rnd_hex_string
 
-from duct.analyses.mesoscale_urban_climate import MesoscaleUrbanClimateAnalysis
+from explorer.analysis.mesoscale_urban_climate import MesoscaleUrbanClimateAnalysis
 from saas.core.exceptions import SaaSRuntimeException
 from saas.core.helpers import read_json_from_file, validate_json, get_timestamp_now
 from saas.core.keystore import Keystore
@@ -16,9 +16,9 @@ from saas.core.schemas import GithubCredentials, SSHCredentials
 from saas.sdk.app.auth import UserDB, UserAuth
 from saas.sdk.base import connect
 
-from duct.analyses.microscale_urban_climate import MicroscaleUrbanClimateAnalysis
+from explorer.analysis.microscale_urban_climate import MicroscaleUrbanClimateAnalysis
 from explorer.analysis.base import Analysis, AnalysisContext
-from explorer.bdp import BaseDataPackageDB
+from explorer.bdp.base import BaseDataPackageDB
 from explorer.dots.area_of_interest import AreaOfInterest
 from explorer.dots.dot import ImportableDataObjectType, DataObjectType
 from explorer.module.base import BuildModule
@@ -189,17 +189,17 @@ class ExplorerAnalysisTestCase(unittest.TestCase):
         # create Dashboard server and proxy
         cls._server = ExplorerServer(cls._server_address, cls._node_address, cls._wd_path)
 
-        for c in ExplorerServer.search_for_classes(['duct.analyses'], Analysis):
+        for c in ExplorerServer.search_for_classes(['explorer.analysis'], Analysis):
             cls._server.add_analysis_instance(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.modules'], BuildModule):
+        for c in ExplorerServer.search_for_classes(['explorer.module'], BuildModule):
             cls._server.add_build_module(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.dots'], DataObjectType):
+        for c in ExplorerServer.search_for_classes(['explorer.dots'], DataObjectType):
             if c != ImportableDataObjectType:
                 cls._server.add_data_object_type(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.renderer'], NetworkRenderer):
+        for c in ExplorerServer.search_for_classes(['explorer.renderer'], NetworkRenderer):
             cls._server.add_network_renderers(c())
 
         cls._server.startup()

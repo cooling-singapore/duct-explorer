@@ -16,7 +16,7 @@ from shapely import Polygon
 from explorer.schemas import AnalysisResult, Scene, AnalysisGroup, BaseDataPackage, AnalysisSpecification, \
     AnalysisCompareResults
 
-logger = Logging.get('explorer.analysis')
+logger = Logging.get('explorer.analysis.base')
 
 
 class AnalysisStatus(Enum):
@@ -31,7 +31,7 @@ class AnalysisContext(threading.Thread, ABC):
     def __init__(self, project, analysis_id: str, sdk: SDKContext) -> None:
         super().__init__(name=f"analysis:{analysis_id}")
 
-        self._logger = Logging.get('duct.analysis.muc')
+        self._logger = Logging.get('explorer.analysis.muc')
         self._project = project
         self._analysis_id = analysis_id
         self._bdp: BaseDataPackage = project.info.bdp

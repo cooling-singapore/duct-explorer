@@ -5,21 +5,21 @@ from typing import List, Dict
 
 import geopandas as gpd
 
-from duct.dots.duct_bemcea import SupplySystems, BuildingAHEmissions
+from explorer.dots.duct_bemcea import SupplySystems, BuildingAHEmissions
 from saas.core.logging import Logging
 from shapely import Polygon
 
-from duct.analyses.building_energy_efficiency import DEFAULT_BUILDING_TYPE_MAP, PROJ_SYSTEM, \
+from explorer.analysis.building_energy_efficiency import DEFAULT_BUILDING_TYPE_MAP, PROJ_SYSTEM, \
     MAXIMUM_BOUNDING_AREA_KM2, DEFAULT_WEATHER, generate_building_ah_profiles, determine_building_footprints
 from saas.sdk.base import SDKContext, LogMessage, SDKCDataObject, SDKProductSpecification
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.analysis.base import Analysis, AnalysisContext, AnalysisStatus
 from explorer.project import Project
 from explorer.schemas import AnalysisGroup, Scene, AnalysisResult, ExplorerRuntimeError, AnalysisSpecification, \
     AnalysisCompareResults
 
-logger = Logging.get('duct.analysis.district_cooling')
+logger = Logging.get('explorer.analysis.district_cooling')
 
 
 class DistrictCooling(Analysis):

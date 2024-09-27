@@ -15,13 +15,13 @@ from saas.core.helpers import get_timestamp_now, generate_random_string
 from saas.core.logging import Logging
 from shapely.geometry import shape
 
-from duct.exceptions import DUCTRuntimeError
+from explorer.exceptions import DUCTRuntimeError
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, ImportTarget, DOTVerificationMessage, \
     DOTVerificationResult
 from explorer.geodb import GeometryType
 from explorer.schemas import ExplorerRuntimeError
 
-logger = Logging.get('duct.dots.urban_geometries')
+logger = Logging.get('explorer.dots.urban_geometries')
 
 
 class UrbanGeometries(ImportableDataObjectType):

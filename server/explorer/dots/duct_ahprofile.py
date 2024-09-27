@@ -5,15 +5,15 @@ from typing import Dict, List, Optional, Tuple
 from saas.core.helpers import get_timestamp_now
 from saas.core.logging import Logging
 
-from duct.analyses.microscale_urban_climate import coord_4326_to_32648, coord_32648_to_4326
-from duct.exceptions import DUCTRuntimeError
-from duct.renderer.ah_profile_renderer import AHProfileRenderer
+from explorer.analysis.microscale_urban_climate import coord_4326_to_32648, coord_32648_to_4326
+from explorer.exceptions import DUCTRuntimeError
+from explorer.renderer.ah_profile_renderer import AHProfileRenderer
 from explorer.dots.dot import ImportableDataObjectType, UploadPostprocessResult, ImportTarget, DOTVerificationMessage, \
     DOTVerificationResult
 from explorer.geodb import GeometryType
 from explorer.schemas import ExplorerRuntimeError
 
-logger = Logging.get('duct.dots.ahprofile')
+logger = Logging.get('explorer.dots.ahprofile')
 
 
 class AnthropogenicHeatProfile(ImportableDataObjectType):

@@ -17,10 +17,10 @@ from saas.sdk.app.auth import UserDB, UserAuth
 from saas.sdk.base import connect
 from tests.base_testcase import create_wd, create_rnd_hex_string
 
-from duct.dots.duct_lcz import LocalClimateZoneMap
-from duct.dots.duct_urban_geometries import UrbanGeometries
-from duct.modules.vegetation_fraction_module import VegetationFractionModule, _make_marks
-from explorer.bdp import BaseDataPackageDB
+from explorer.dots.duct_lcz import LocalClimateZoneMap
+from explorer.dots.duct_urban_geometries import UrbanGeometries
+from explorer.module.vegetation_fraction_module import VegetationFractionModule, _make_marks
+from explorer.bdp.base import BaseDataPackageDB
 from explorer.dots.area_of_interest import AreaOfInterest
 from explorer.dots.dot import ImportableDataObjectType, DataObjectType
 from explorer.geodb import GeometryType
@@ -215,17 +215,17 @@ class ExplorerServerTestCase(unittest.TestCase):
         # create Dashboard server and proxy
         cls._server = ExplorerServer(cls._server_address, cls._node_rest_address, cls._wd_path)
 
-        for c in ExplorerServer.search_for_classes(['duct.analyses'], Analysis):
+        for c in ExplorerServer.search_for_classes(['explorer.analysis'], Analysis):
             cls._server.add_analysis_instance(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.modules'], BuildModule):
+        for c in ExplorerServer.search_for_classes(['explorer.module'], BuildModule):
             cls._server.add_build_module(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.dots', 'explorer.dots'], DataObjectType):
+        for c in ExplorerServer.search_for_classes(['explorer.dots'], DataObjectType):
             if c != ImportableDataObjectType:
                 cls._server.add_data_object_type(c())
 
-        for c in ExplorerServer.search_for_classes(['duct.renderer'], NetworkRenderer):
+        for c in ExplorerServer.search_for_classes(['explorer.renderer'], NetworkRenderer):
             cls._server.add_network_renderers(c())
 
         cls._server.startup()
