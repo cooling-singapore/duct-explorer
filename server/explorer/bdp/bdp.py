@@ -497,43 +497,47 @@ class DUCTBaseDataPackageDB(BaseDataPackageDB):
         # prepare the city admin zones dataset
         processed_content_path = mappings['city-admin-zones']['path'] + ".processed"
         caz_index, caz_features = cls.prepare_city_admin_zones(mappings['city-admin-zones']['path'])
-        with open(processed_content_path, 'w') as f_out:
-            json.dump({
-                'type': 'FeatureCollection',
-                'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
-                'features': list(caz_features.values())
-            }, f_out, indent=2)
+        if not os.path.isfile(processed_content_path):
+            with open(processed_content_path, 'w') as f_out:
+                json.dump({
+                    'type': 'FeatureCollection',
+                    'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
+                    'features': list(caz_features.values())
+                }, f_out, indent=2)
         mappings['city-admin-zones']['path'] = processed_content_path
 
         # prepare the vegetation dataset
         processed_content_path = mappings['vegetation']['path'] + ".processed"
-        with open(processed_content_path, 'w') as f_out:
-            json.dump({
-                'type': 'FeatureCollection',
-                'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
-                'features': cls.prepare_vegetation(mappings['vegetation']['path'])
-            }, f_out, indent=2)
+        if not os.path.isfile(processed_content_path):
+            with open(processed_content_path, 'w') as f_out:
+                json.dump({
+                    'type': 'FeatureCollection',
+                    'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
+                    'features': cls.prepare_vegetation(mappings['vegetation']['path'])
+                }, f_out, indent=2)
         mappings['vegetation']['path'] = processed_content_path
 
         # prepare the land-use dataset
         landuse_index, landuse_features, landcover_features = cls.prepare_land_use_zoning(mappings['land-use']['path'])
         processed_content_path = mappings['land-use']['path']+".processed"
-        with open(processed_content_path, 'w') as f_out:
-            json.dump({
-                'type': 'FeatureCollection',
-                'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
-                'features': list(landuse_features.values())
-            }, f_out, indent=2)
+        if not os.path.isfile(processed_content_path):
+            with open(processed_content_path, 'w') as f_out:
+                json.dump({
+                    'type': 'FeatureCollection',
+                    'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
+                    'features': list(landuse_features.values())
+                }, f_out, indent=2)
         mappings['land-use']['path'] = processed_content_path
 
         # write the derived land cover dataset
         processed_content_path = processed_content_path.replace('land-use', 'land-cover')
-        with open(processed_content_path, 'w') as f_out:
-            json.dump({
-                'type': 'FeatureCollection',
-                'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
-                'features': landcover_features
-            }, f_out, indent=2)
+        if not os.path.isfile(processed_content_path):
+            with open(processed_content_path, 'w') as f_out:
+                json.dump({
+                    'type': 'FeatureCollection',
+                    'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
+                    'features': landcover_features
+                }, f_out, indent=2)
         mappings['land-cover'] = {
             'path': processed_content_path,
             'type': 'DUCT.GeoVectorData',
@@ -542,14 +546,15 @@ class DUCTBaseDataPackageDB(BaseDataPackageDB):
 
         # prepare the building footprint dataset
         processed_content_path = mappings['building-footprints']['path'] + ".processed"
-        with open(processed_content_path, 'w') as f_out:
-            json.dump({
-                'type': 'FeatureCollection',
-                'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
-                'features': cls.prepare_building_footprints(
-                    mappings['building-footprints']['path'], landuse_index, landuse_features
-                )
-            }, f_out, indent=2)
+        if not os.path.isfile(processed_content_path):
+            with open(processed_content_path, 'w') as f_out:
+                json.dump({
+                    'type': 'FeatureCollection',
+                    'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'}},
+                    'features': cls.prepare_building_footprints(
+                        mappings['building-footprints']['path'], landuse_index, landuse_features
+                    )
+                }, f_out, indent=2)
         mappings['building-footprints']['path'] = processed_content_path
 
         return mappings

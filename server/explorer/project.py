@@ -294,7 +294,7 @@ def load_area_of_interest(sdk: SDKContext, download_path: str, aoi_obj_id: str) 
     aoi_obj = sdk.find_data_object(aoi_obj_id)
     if aoi_obj is not None:
         # download the aoi
-        aoi_path = os.path.join(download_path, f"aoi.geojson")
+        aoi_path = os.path.join(download_path, "aoi.geojson")
         aoi_obj.download(aoi_path)
 
         try:

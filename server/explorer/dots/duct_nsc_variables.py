@@ -79,7 +79,7 @@ def extract_nsc_data(content_path: str, parameters: dict, key: str = '') -> (Bou
             return hour_result
 
         # calculate data for a specific hour when creating line charts or when filtering results by time.
-        if parameters['type'] == 'duct.nsc_var.linechart' or (
+        if parameters.get('type', '') == 'duct.nsc_var.linechart' or (
                 result_filter == 'time' and 'time' in parameters and 0 <= int(parameters['time']) <= 23):
             datetime_th: datetime.datetime = datetime_0h + datetime.timedelta(hours=int(parameters['time']))
             datetime_th: str = datetime_th.strftime('%Y%m%d%H%M%S')
@@ -176,13 +176,15 @@ class NearSurfaceClimateVariableLinechart(DataObjectType):
                 # modify the mask to account for 'no_value' values
                 mask = np.logical_and(mask, raster != no_data)
 
-            v_avg = np.average(raster[mask])
-            v_min = np.min(raster[mask])
-            v_max = np.max(raster[mask])
+            data = raster[mask]
+            if data.shape[0] > 0:
+                v_avg = np.average(data)
+                v_min = np.min(data)
+                v_max = np.max(data)
 
-            values['Mean'].append(float(v_avg))
-            values['Min'].append(float(v_min))
-            values['Max'].append(float(v_max))
+                values['Mean'].append(float(v_avg))
+                values['Min'].append(float(v_min))
+                values['Max'].append(float(v_max))
 
         # resetting the time to the originally selected value
         parameters['time'] = selected_hour
