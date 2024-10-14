@@ -15,3 +15,35 @@ Only `building-footprints`, `lcz-baseline`, `sh-traffic-ev100`, `sh-traffic-base
 
 ## Creating the Base Data Package
 
+
+To create a BDP, use the following command:
+$LOCATION_OF_BDP_FILES refers to a directory that contains all the relevant data object content files needed to create a BDP.
+
+```shell
+# Export relevant environment
+export ENV_HOME=$DEV
+export LOCATION_OF_BDP_FILES=$HOME/{BDPNAME}
+
+# Activate virtual environment
+source ${ENV_HOME}/venv-servers/bin/activate
+
+cd $LOCATION_OF_BDP_FILES
+
+# Create BDP
+explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-areas population-data network-data se-data scenario-data-from_scene
+```
+BDP information:
+
+| City Name     | Package Name (Example) | Bounding Box                         | Dimensions | Timezone         | 
+|:--------------|:-----------------------|:-------------------------------------|:-----------|:-----------------|
+| Singapore     | Public (v24)           | 103.55161,1.53428,104.14966,1.19921  | 211,130    | Asia/Singapore   |
+
+### Remove Base Data Package (BDP)
+```shell
+export ENV_HOME=$DEV
+source ${ENV_HOME}/venv-servers/bin/activate
+
+# Remove BDP
+explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp remove --bdp_directory ${ENV_HOME}/bdps
+```
+
