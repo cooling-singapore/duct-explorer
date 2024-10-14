@@ -102,7 +102,7 @@ class ExplorerProxy(EndpointProxy):
             'selected_zones': selected_zones,
             'datasets': {key.value: value for key, value in datasets.items()}
         })
-        return {int(key): ZoneConfiguration.parse_obj(value) for key, value in results.items()}
+        return {int(key): ZoneConfiguration.parse_obj(value) for key, value in results['configs'].items()}
 
     def get_zone_configs(self, project_id: str, zone_id: int) -> List[ZoneConfiguration]:
         results = self.get(f"zone_config/{project_id}/{zone_id}")
