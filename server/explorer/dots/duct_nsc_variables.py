@@ -16,9 +16,12 @@ from explorer.schemas import BoundingBox, Dimensions, WindVectorDetails
 logger = Logging.get('explorer.dots.nsc_var')
 
 
-def extract_nsc_data(content_path: str, parameters: dict, key: str = '') -> (BoundingBox, Dimensions, np.ndarray):
+def extract_nsc_data(content_path: str, parameters: dict, key: str = '', no_data_value: int = 0) -> (BoundingBox, Dimensions, np.ndarray):
     if key == '':
         key = parameters['key']
+
+    if parameters.get('no_data') is None and no_data_value != 0:
+        parameters['no_data'] = no_data_value
 
     with h5py.File(content_path, "r") as f:
         # do we have that key?
@@ -79,7 +82,7 @@ def extract_nsc_data(content_path: str, parameters: dict, key: str = '') -> (Bou
             return hour_result
 
         # calculate data for a specific hour when creating line charts or when filtering results by time.
-        if parameters.get('type', '') == 'duct.nsc_var.linechart' or (
+        if parameters['type'] == 'duct.nsc_var.linechart' or (
                 result_filter == 'time' and 'time' in parameters and 0 <= int(parameters['time']) <= 23):
             datetime_th: datetime.datetime = datetime_0h + datetime.timedelta(hours=int(parameters['time']))
             datetime_th: str = datetime_th.strftime('%Y%m%d%H%M%S')
@@ -176,15 +179,13 @@ class NearSurfaceClimateVariableLinechart(DataObjectType):
                 # modify the mask to account for 'no_value' values
                 mask = np.logical_and(mask, raster != no_data)
 
-            data = raster[mask]
-            if data.shape[0] > 0:
-                v_avg = np.average(data)
-                v_min = np.min(data)
-                v_max = np.max(data)
+            v_avg = np.average(raster[mask])
+            v_min = np.min(raster[mask])
+            v_max = np.max(raster[mask])
 
-                values['Mean'].append(float(v_avg))
-                values['Min'].append(float(v_min))
-                values['Max'].append(float(v_max))
+            values['Mean'].append(float(v_avg))
+            values['Min'].append(float(v_min))
+            values['Max'].append(float(v_max))
 
         # resetting the time to the originally selected value
         parameters['time'] = selected_hour
@@ -376,8 +377,8 @@ class NearSurfaceClimateVariableRaster(DataObjectType):
     def extract_delta_feature(self, content_path0: str, content_path1: str, parameters: dict) -> Dict:
         # extract the raster data
         parameters['A']['type'] = parameters['B']['type'] = self.DATA_TYPE
-        bbox0, dimensions0, raster0 = extract_nsc_data(content_path0, parameters['A'])
-        bbox1, dimensions1, raster1 = extract_nsc_data(content_path1, parameters['B'])
+        bbox0, dimensions0, raster0 = extract_nsc_data(content_path0, parameters['A'], '', parameters['common']['no_data'])
+        bbox1, dimensions1, raster1 = extract_nsc_data(content_path1, parameters['B'], '', parameters['common']['no_data'])
 
         # verify they are the same
         if bbox0.as_str() != bbox1.as_str() or dimensions0.as_str() != dimensions1.as_str():
@@ -580,7 +581,9 @@ class WindVectorField(DataObjectType):
                 'coordinates': [wind_details.lat, wind_details.lon],
                 'width': visual_attributes[1],
                 'height': 10,
-                'direction': direction_rounded,
+                # adding an axis offset (45°) to change the wind's reference direction and adding 180°,
+                # to show the wind blowing towards instead of its source (Zenhub : duct-servers #999)
+                'direction': (direction_rounded + 225) % 360,
                 'speed': speed_rounded,
                 'color': '#000000'
             })
