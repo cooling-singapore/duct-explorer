@@ -7,7 +7,7 @@ import geopandas as gpd
 from saas.core.logging import Logging
 from saas.dor.schemas import DataObject
 from saas.sdk.base import SDKContext, LogMessage, SDKProductSpecification, SDKCDataObject
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, shape, mapping
 
 from explorer.dots.duct_bemcea import BuildingAHEmissions, aggregate_ah_data, BuildingAnnualEnergy, BuildingAnnualGeneration
 from explorer.dots.duct_bld_eff_std import BuildingEfficiencyStandard
@@ -100,17 +100,19 @@ def generate_building_standards(efficiency_standards: Dict[str, str]) -> Dict[st
     }
 
 
-def determine_building_footprints(context: AnalysisContext, area: Polygon, scene: Scene) -> SDKCDataObject:
+def fix_and_process_buildings(building_geojson):
     """
-    Determine area of interest as polygon and obtain the building footprint for this area
-    """
+        Fix overlapping building footprints based on height while converting eligible MultiPolygons to Polygons.
+       Returns:
+       - updated_building_geojson: dict, the adjusted geojson object
+       - ineligible_features: list, features that are either MultiPolygons with multiple coordinates or unsupported geometry types.
+       """
 
-    geojson = context.geometries(GeometryType.building, f'scene:{scene.id}', area=area)
-
-    # sort features into eligible/ineligible features
-    eligible_features = []
+    processed_geometries = []
     ineligible_features = []
-    for feature in geojson['features']:
+
+    # process each building feature
+    for i, feature in enumerate(building_geojson['features']):
         # use building id as 'name' since CEA treats names as ids
         feature['properties']['actual_name'] = feature['properties']['name']
         feature['properties']['name'] = str(feature['properties']['id'])
@@ -119,28 +121,64 @@ def determine_building_footprints(context: AnalysisContext, area: Polygon, scene
         geometry = feature['geometry']
         if geometry['type'] == 'MultiPolygon':
             if len(geometry['coordinates']) == 1:
+                # convert MultiPolygon to Polygon
                 geometry['type'] = 'Polygon'
                 geometry['coordinates'] = geometry['coordinates'][0]
-
-                eligible_features.append(feature)
             else:
-                logger.warning(f"multipolygon building feature cannot be converted: {feature}")
+                #  skip ineligible polygons
                 ineligible_features.append(feature)
+                continue
+        elif geometry['type'] != 'Polygon':
+            # skip unsupported geometry types
+            ineligible_features.append(feature)
+            continue
 
-        elif geometry['type'] == 'Polygon':
-            eligible_features.append(feature)
+        building_shape = shape(geometry)
 
-        else:
-            logger.error(f"unsupported geometry type in building feature: {feature}")
+        # check for overlapping with previously processed geometries
+        for j, processed_shape in enumerate(processed_geometries):
+            if building_shape.intersects(processed_shape):
+                # handle vertical overlap by comparing heights
+                building_height = feature['properties']['height']
+                processed_height = building_geojson['features'][j]['properties']['height']
+
+                # subtract the taller building's footprint from the shorter one
+                if building_height > processed_height:
+                    processed_shape = processed_shape.difference(building_shape)
+                    building_geojson['features'][j]['geometry'] = mapping(processed_shape)
+                # subtract the other building's footprint from the current building
+                else:
+                    building_shape = building_shape.difference(processed_shape)
+                    building_geojson['features'][i]['geometry'] = mapping(building_shape)
+
+        processed_geometries.append(building_shape)
+
+    # remove features without coordinates
+    building_geojson['features'] = [
+        feature for feature in building_geojson['features']
+        if feature['geometry']['type'] == 'Polygon' and feature['geometry']['coordinates']
+    ]
+
+    return building_geojson, ineligible_features
+
+
+def determine_building_footprints(context: AnalysisContext, area: Polygon, scene: Scene) -> SDKCDataObject:
+    """
+    Determine area of interest as polygon and obtain the building footprint for this area.
+    If overlapping horizontally and vertically (based on height), cut the taller building's footprint from the lower building.
+    """
+
+    geojson = context.geometries(GeometryType.building, f'scene:{scene.id}', area=area)
+    eligible_building_geojson, ineligible_features = fix_and_process_buildings(geojson)
 
     # use eligible features only
-    geojson['features'] = eligible_features
+    geojson['features'] = eligible_building_geojson['features']
 
     # store the ineligible features
     with open(os.path.join(context.analysis_path, 'ineligible_buildings.json'), 'w') as f:
         json.dump(ineligible_features, f, indent=2)
 
-    # store the geojson with eligible features only
+    # store the geojson with eligible and processed features
     building_footprints_path = os.path.join(context.analysis_path, 'eligible_buildings.geojson')
     with open(building_footprints_path, 'w') as f:
         json.dump(geojson, f, indent=2)
@@ -410,7 +448,7 @@ class BuildingEnergyEfficiency(Analysis):
                 "default_building_type": "MULTI_RES",
                 "building_standard_mapping": generate_building_standards(efficiency_standards),
                 "default_building_standard": "STANDARD1",
-                'commit_id': '9e778e6b797e076bf24ab3bfbf5c2ebbeaf63a1e',  # branch: CEA-for-DUCT-DC-module
+                'commit_id': '4bc3e0dc98978ceb3da02d2259f4576d6f7c8172',  # branch: CEA-for-DUCT-DC-module
                 "database_name": "SG_SLE",
                 "terrain_height": 0,
                 "weather": DEFAULT_WEATHER
