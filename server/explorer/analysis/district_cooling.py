@@ -78,7 +78,7 @@ class DistrictCooling(Analysis):
                 "default_building_type": "MULTI_RES",
                 "building_standard_mapping": {},
                 "default_building_standard": "STANDARD1",
-                'commit_id': '9e778e6b797e076bf24ab3bfbf5c2ebbeaf63a1e',
+                'commit_id': '4bc3e0dc98978ceb3da02d2259f4576d6f7c8172',
                 "database_name": "SG",
                 "terrain_height": 0,
                 "weather": DEFAULT_WEATHER
