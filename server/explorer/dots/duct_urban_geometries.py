@@ -107,10 +107,8 @@ class UrbanGeometries(ImportableDataObjectType):
     VEG_CATEGORIES: Dict[str, Dict[str, str]] = {
         'tree': {
             '1': 'default',
-            '2': 'acer',
-            '7': 'betula',
-            '36': 'gleditsia',
-            '73': 'sasa'
+            '2': 'spherical/oval',
+            '3': 'conical'
         }
     }
     VEG_TYPES = []
