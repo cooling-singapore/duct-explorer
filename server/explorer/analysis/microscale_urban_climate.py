@@ -151,7 +151,7 @@ def _result_specification() -> dict:
                 {'value': 45, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
                 {'value': 50, 'color': hex_color_to_components('#311165', alpha), 'label': '50˚C'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'pet-delta': {
             'legend_title': 'Difference in Physiologically Equivalent Temperature (in Δ˚C)',
@@ -163,21 +163,21 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
                 {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'air_temperature': {
             'legend_title': 'Air Temperature (in ˚C)',
             'statistics_table_description': 'Near-surface (2.5m) air temperature (in ˚C)',
             'color_schema': [
-                {'value': 24, 'color': hex_color_to_components('#313695', alpha), 'label': '24˚C'},
-                {'value': 26, 'color': hex_color_to_components('#ABD9E9', alpha), 'label': ''},
-                {'value': 28, 'color': hex_color_to_components('#FFFFBF', alpha), 'label': '28˚C'},
+                {'value': 20, 'color': hex_color_to_components('#313695', alpha), 'label': '20˚C'},
+                {'value': 23, 'color': hex_color_to_components('#ABD9E9', alpha), 'label': ''},
+                {'value': 26, 'color': hex_color_to_components('#FFFFBF', alpha), 'label': '26˚C'},
                 {'value': 30, 'color': hex_color_to_components('#FDAE61', alpha), 'label': ''},
-                {'value': 32, 'color': hex_color_to_components('#D73027', alpha), 'label': '32˚C'},
-                {'value': 34, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
-                {'value': 36, 'color': hex_color_to_components('#311165', alpha), 'label': '36˚C'},
+                {'value': 33, 'color': hex_color_to_components('#D73027', alpha), 'label': '33˚C'},
+                {'value': 36, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
+                {'value': 40, 'color': hex_color_to_components('#311165', alpha), 'label': '40˚C'},
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'air_temperature-delta': {
             'legend_title': 'Difference in Air Temperature (in Δ˚C)',
@@ -187,7 +187,7 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
                 {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'surface_temperature': {
             'legend_title': 'Surface Temperature (in ˚C)',
@@ -201,7 +201,7 @@ def _result_specification() -> dict:
                 {'value': 45, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
                 {'value': 50, 'color': hex_color_to_components('#311165', alpha), 'label': '50˚C'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'surface_temperature-delta': {
             'legend_title': 'Difference in Surface Temperature (in Δ˚C)',
@@ -211,7 +211,7 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
                 {'value': 10, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'relative_humidity': {
             'legend_title': 'Relative Humidity (in %)',
@@ -224,7 +224,7 @@ def _result_specification() -> dict:
                 {'value': 80, 'color': hex_color_to_components('#033D18', alpha), 'label': '80'},
                 {'value': 100, 'color': hex_color_to_components('#02250e', alpha), 'label': '100'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'relative_humidity-delta': {
             'legend_title': 'Difference in Relative Humidity (in Δ%)',
@@ -234,7 +234,7 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
                 {'value': 20, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_speed': {
             'legend_title': 'Wind Speed (in m/s)',
@@ -248,7 +248,7 @@ def _result_specification() -> dict:
                 {'value': 1, 'color': hex_color_to_components('#E5470B', alpha), 'label': '1.0'},
                 {'value': 2, 'color': hex_color_to_components('#9B0F01', alpha), 'label': '2.0'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_speed-delta': {
             'legend_title': 'Difference in Wind Speed (in Δm/s)',
@@ -258,7 +258,7 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
                 {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_direction': {
             'legend_title': 'Predominant Wind Direction (˚)',
@@ -270,7 +270,7 @@ def _result_specification() -> dict:
                 {'value': 270, 'color': hex_color_to_components('#3cccb4', alpha), 'label': '270'},
                 {'value': 360, 'color': hex_color_to_components('#d92b30', alpha), 'label': '360'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_direction-delta': {
             'legend_title': 'Difference in Predominant Wind Direction (Δ˚)',
@@ -280,10 +280,10 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
                 {'value': 180, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_speed_and_direction': {
-            'legend_title': 'Wind direction',
+            'legend_title': 'Wind Speed',
             'statistics_table_description': 'Near-surface (2.5m) wind speed and direction',
             'color_schema': [
                 {'value': 0, 'color': [65, 150, 255, 1], 'label': '0.0', 'size': 50},
@@ -294,7 +294,7 @@ def _result_specification() -> dict:
                 {'value': 1, 'color': [299, 71, 11, 1], 'label': '1.0', 'size': 80},
                 {'value': 2, 'color': [155, 15, 1, 1], 'label': '2.0', 'size': 90}
             ],
-            'no_data': -9999
+            'no_data': -999999
         },
         'wind_speed_and_direction-delta': {
             'legend_title': 'Difference in Wind Speed (in Δm/s)',
@@ -304,7 +304,7 @@ def _result_specification() -> dict:
                 {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
                 {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
-            'no_data': -9999
+            'no_data': -999999
         }
     }
 
@@ -344,11 +344,10 @@ def _make_result(name: str, label: str, obj_id: str, datetime_0h: str) -> Analys
                         'then': {
                             'properties': {
                                 'time': {
-                                    'type': 'integer',
                                     'title': 'Hour of Day (0h - 23h)',
-                                    'minimum': 0,
-                                    'multipleOf': 1,
-                                    'maximum': 23,
+                                    'type': 'integer',
+                                    'enum': list(range(24)),
+                                    'enumNames': [str(i) for i in range(11)],
                                     'default': 0
                                 }
                             },
