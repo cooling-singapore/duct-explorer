@@ -98,3 +98,7 @@ git push origin –tags
 ```
 
 Once done, push the tag and monitor the progress in the Actions tab on Github
+
+## Recommended Code Refinements
+
+- The map layer components in `apps\duct\src\app\utils\ui\map-layers` to be converted to hooks which return an instace of the layer type.
