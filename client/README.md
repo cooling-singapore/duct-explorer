@@ -1,9 +1,4 @@
-# DUCT Frontend
-
-## Contributing
-
-- Every commit message should refer an issue on zenhub
-- No commits should be made directly to the master branch. Changes should be merged in only via pull requests
+# DUCT Explorer Frontend
 
 ## Prerequisites
 
@@ -14,75 +9,96 @@
 ## Install dependencies
 
 Run `yarn install`
-Copy node_modules\@arcgis\core\assets to .public\assets
 
 ## Development server
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `yarn nx run duct:serve:development` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 ## Build
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Bundle
 
-## Adding capabilities to your workspace
+Run `yarn nx run duct:build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+### Docker image
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+Example usage:
 
-Below are our core plugins:
+```
+docker build \
+-t duct-explorer \
+--build-arg TAG_NAME='duct-staging-0.0.1 \
+--build-arg BUILD_CONFIG='development' \
+```
 
-- [React](https://reactjs.org)
-  - `yarn add --save-dev @nx/react`
-- Web (no framework frontends)
-  - `yarn add --save-dev @nx/web`
-- [Angular](https://angular.io)
-  - `yarn add --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `yarn add --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `yarn add --save-dev @nx/express`
-- [Node](https://nodejs.org)
-  - `yarn add --save-dev @nx/node`
+#### Arguments
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+- `-t duct-explorer`: Assigns a name (duct-explorer) to the resulting Docker image.
+- `--build-arg TAG_NAME='duct-staging-0.0.1'`: Passes the `TAG_NAME` argument to the build process, which specifies the tag or version for the build.
+- `--build-arg BUILD_CONFIG='development'`: Passes the `BUILD_CONFIG` argument to define the configuration mode (e.g., development, staging, or production).
 
-## Generate an application
+## Project Structure
 
-Run `nx g @nx/react:app my-app` to generate an application.
+```root
+├── apps/
+│   └── duct/             # The explorer react application. Refer the section below for details
+├── libs/                 # Shared libraries
+│   └── data/             # Contains shared type specifications and services
+│   └── ui/               # Contains shared UI components
+├── nx.json               # Nx workspace configuration
+├── .dockerignore         # Ignore list for docker
+├── package.json          # Dependencies and scripts
+└── tsconfig.base.json    # Base TypeScript configuration
+```
 
-> You can use any of the plugins above to generate applications as well.
+## Application Structure
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+```root
+├── duct/                 # The explorer react application
+|   ├── src/
+|   |   ├── app/          # Contains react components organised by route
+|   |   |   ├── context/  # Contains react context types used in the application
+|   |   |   ├── utils/    # Contains utilities used in the application
+|   |   |   └── app.tsx   # Defines the app shell and route configurations
+|   |   ├── assets/       # Contains image assets used by the explorer
+|   |   └── environments/ # Contains environment configurations for individual environments
+├── project.json          # Project configuration settings like build and run targets
+└── Dockerfile            # Commands to build a docker image
+```
 
-## Generate a library
+## Deploying the DUCT Explorer
 
-Run `nx g @nx/react:lib my-lib` to generate a library.
+### Set up environment variables
 
-> You can also use any of the plugins above to generate libraries as well.
+- Navigate to `apps/duct/src/environments` and define a new file and change the variables required for the new deployment. In most cases only the apiHost would have to be updated.
+- Follow the existing file naming structure for consistency.
 
-Libraries are shareable across libraries and applications. They can be imported from `@digital-urban-climate-twin/mylib`.
+### Set up NX project configuration
 
-## Code scaffolding
+- Navigate to the `project.json` file located in `apps/duct`.
+- Add a new build configuration for the deployment in this path: targets > build > configurations
+- The name you use for the configuration is what would be used to run the NX build command, therefore simply follow the existing naming structure for consistency.
+- Update the `fileReplacements` property with the name of the environment file you created in the first step.
+- Set up any other properties as needed.
 
-Run `nx g @nx/react:component my-component --project=my-app` to generate a new component.
+### Set up Github Actions and cloud service provider
 
-## Running unit tests
+Set up GitHub Actions to build and deploy the DUCT Explorer docker image by creating a workflow file in `.github/workflows/` and configuring it based on your cloud provider (e.g., AWS, Azure, or GCP). Add necessary secrets like API keys or credentials in the repository's `Settings > Secrets and variables`. Refer to the official documentation for detailed setup steps for your provider (AWS, Azure, GCP).
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+### Trigger a Build
 
-Run `nx affected:test` to execute the unit tests affected by a change.
+This step would differ depending on how the Github aciton has been configured. The following example assums the on tag event is used. 
 
-## Running end-to-end tests
 
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Create a tag. The format of this tag must match the regular expression defined in the Github workflow:
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+```
+git tag duct-staging-0.0.1
+git push origin –tags
+```
 
-## Understand your workspace
+Once done, push the tag and monitor the progress in the Actions tab on Github
 
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+## Recommended Code Refinements
 
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+- The map layer components in `apps\duct\src\app\utils\ui\map-layers` to be converted to hooks which return an instace of the layer type.

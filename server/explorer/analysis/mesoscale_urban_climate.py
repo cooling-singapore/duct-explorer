@@ -126,8 +126,8 @@ def result_specification() -> dict:
         '2m_air_temperature_uhi': {
             'legend_title': 'Urban Heat Island Intensity (in Δ˚C)',
             'statistics_table_description': 'The Urban Heat Island (UHI) effect, represented by the difference in 2m air temperature '
-                           'between urban grids and a designated rural area in southwestern Johor Bahru. '
-                           'For the exact grid locations used, refer to the Visual Validation package.',
+                                            'between urban grids and a designated rural area in southwestern Johor Bahru. '
+                                            'For the exact grid locations used, refer to the Visual Validation package.',
             'color_schema': [
                 {'value': -4, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-4˚C'},
                 {'value': -2, 'color': hex_color_to_components('#abd9e9', alpha), 'label': '-2˚C'},
@@ -140,8 +140,8 @@ def result_specification() -> dict:
         '2m_air_temperature_uhi-delta': {
             'legend_title': 'Difference in Urban Heat Island Intensity (in ΔUHI[˚C])',
             'statistics_table_description': 'The Urban Heat Island (UHI) effect, represented by the difference in 2m air temperature '
-                           'between urban grids and a designated rural area in southwestern Johor Bahru. '
-                           'For the exact grid locations used, refer to the Visual Validation package.',
+                                            'between urban grids and a designated rural area in southwestern Johor Bahru. '
+                                            'For the exact grid locations used, refer to the Visual Validation package.',
             'color_schema': [
                 {'value': -4, 'color': hex_color_to_components('#EB1C24', alpha), 'label': '-4˚C'},
                 {'value': -2, 'color': hex_color_to_components('#BA3450', alpha), 'label': '-2˚C'},
@@ -154,7 +154,7 @@ def result_specification() -> dict:
         'wet_bulb_globe_temperature': {
             'legend_title': 'Wet Bulb Globe Temperature (in ˚C)',
             'statistics_table_description': 'Near-surface (2m) Wet Bulb Globe Temperature (WBGT) (in ˚C), estimated from simulated '
-                           'temperature, humidity, radiation and wind speed.',
+                                            'temperature, humidity, radiation and wind speed.',
             'color_schema': [
                 {'value': 24, 'color': hex_color_to_components('#313695', alpha), 'label': '24˚C'},
                 {'value': 26, 'color': hex_color_to_components('#ABD9E9', alpha), 'label': ''},
@@ -169,7 +169,7 @@ def result_specification() -> dict:
         'wet_bulb_globe_temperature-delta': {
             'legend_title': 'Difference in Wet Bulb Globe Temperature (in Δ˚C)',
             'statistics_table_description': 'Near-surface (2m) Wet Bulb Globe Temperature (WBGT) (in ˚C), estimated from simulated '
-                           'temperature, humidity, radiation and wind speed.',
+                                            'temperature, humidity, radiation and wind speed.',
             'color_schema': [
                 {'value': -5, 'color': hex_color_to_components('#EB1C24', alpha), 'label': 'B > A'},
                 {'value': 0.0, 'color': hex_color_to_components('#303030', 127), 'label': 'A == B'},
@@ -181,13 +181,13 @@ def result_specification() -> dict:
             'legend_title': 'Air Temperature (in ˚C)',
             'statistics_table_description': 'Near-surface (2m) air temperature (in ˚C)',
             'color_schema': [
-                {'value': 24, 'color': hex_color_to_components('#313695', alpha), 'label': '24˚C'},
-                {'value': 26, 'color': hex_color_to_components('#ABD9E9', alpha), 'label': ''},
-                {'value': 28, 'color': hex_color_to_components('#FFFFBF', alpha), 'label': '28˚C'},
+                {'value': 20, 'color': hex_color_to_components('#313695', alpha), 'label': '20˚C'},
+                {'value': 23, 'color': hex_color_to_components('#ABD9E9', alpha), 'label': ''},
+                {'value': 26, 'color': hex_color_to_components('#FFFFBF', alpha), 'label': '26˚C'},
                 {'value': 30, 'color': hex_color_to_components('#FDAE61', alpha), 'label': ''},
-                {'value': 32, 'color': hex_color_to_components('#D73027', alpha), 'label': '32˚C'},
-                {'value': 34, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
-                {'value': 36, 'color': hex_color_to_components('#311165', alpha), 'label': '36˚C'},
+                {'value': 33, 'color': hex_color_to_components('#D73027', alpha), 'label': '33˚C'},
+                {'value': 36, 'color': hex_color_to_components('#6A0018', alpha), 'label': ''},
+                {'value': 40, 'color': hex_color_to_components('#311165', alpha), 'label': '40˚C'},
             ],
             'no_data': 999
         },
@@ -270,7 +270,7 @@ def result_specification() -> dict:
             'no_data': 999
         },
         '10m_wind_speed_and_direction': {
-            'legend_title': 'Wind direction',
+            'legend_title': 'Wind Speed',
             'statistics_table_description': 'Wind field calculated at a height of 2.5m, visualised for the specific '
                                             'time step selected below.',
             'color_schema': [
