@@ -1,13 +1,22 @@
-# Duct-Servers
+# DUCT Explorer
 This repository is part of the Cooling Singapore 2.0 project which ended in August 2024. 
 The repository is deprecated and will no longer be maintained. For further information please contact 
 *contact-dtlab@sec.ethz.ch.*
 
+## Directory Structure
+DUCT Explorer is organized into two main components, reflecting its directory structure:
+
+#### DUCT Explorer Server
+Corresponds to the **server** folder, housing all backend services and configurations.
+
+#### DUCT Explorer Client
+Corresponds to the **client** folder, containing all frontend resources for interacting with the server.
+
 ## Overview
-Duct-servers provides explorer services, which are dependent on saas-middleware services. This documentation guides you through the setup, testing, and administration of these services.
+DUCT Explorer provides explorer services, which depend on SaaS Middleware services. This documentation will guide you through setting up the DUCT Explorer Server, along with testing and administering its components.
 
 ## Prerequisites
-Ensure that the saas-middleware services are operational before initiating duct-explorer.
+Ensure that the SaaS Middleware services are operational before initiating DUCT Explorer.
 - Python 3.10 (does not work with newer Python versions)
 - Linux or MacOS Operating System (not tested with Windows)
 
