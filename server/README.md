@@ -74,7 +74,7 @@ INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:5021 (Press CTRL+C to quit)
 ```
-
+## Users
 ### Creating Explorer Users
 To initialize and manage explorer users, use the following commands:
 
@@ -110,12 +110,13 @@ LOGIN              NAME     DISABLED  KEYSTORE ID
 foo.bar@email.com  foo bar  No        vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa
 ```
 
-# Remove an explorer user
+### Remove an explorer user
 Users can be removed by their login.
 ```shell
 explorer user remove --userstore ${USERSTORE} --login '<put_user_login_here>'
 ```
 
+## Base Data Packages (BDPs)
 ### Create Base Data Packages (BDPs)
 
 To create a BDP, use the following command:
@@ -132,7 +133,7 @@ source ${ENV_HOME}/venv-servers/bin/activate
 cd $LOCATION_OF_BDP_FILES
 
 # Create BDP
-explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-areas population-data network-data se-data scenario-data-from_scene
+explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-zones.geojson land-use-zoning.geojson building-footprints.geojson vegetation-trees-zip lcz-map.tiff traffic_baseline_SH.geojson traffic_ev100_SH.geojson power_baseline_SH_20160201.geojson power_baseline_LH_20160201.geojson description.md 
 ```
 BDP information:
 
