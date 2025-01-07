@@ -35,7 +35,7 @@ setup(
     long_description_content_type='text/markdown',
     entry_points={
         'console_scripts': [
-            'explorer = explorer.cli:main'
+            'explorer = explorer.cli.base:main'
         ]
     },
     classifiers=[

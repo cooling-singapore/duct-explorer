@@ -39,28 +39,28 @@ Install the required python packages:
 ```shell
 pip install -r requirements.txt
 ```
-
-
-### First time setup
-Upload bdp-files to /mnt/duct with explorer pod.
 ```shell
-# Get running pod id of explorer
-kubectl get pods
-
-# Copy bdp-files to explorer pod
-kubectl cp /path/to/bdp-files <explorer-pod>:/mnt/duct/bdp-files
+pip install .
+```
+## Usage
+The DUCT Explorer can be used via a Command Line Interface (CLI) with this command once it is installed:
+```shell
+explorer
 ```
 
-Interactive shell with explorer pod
+### Running Explorer
+When initializing, the user must provide the following:
+
+- Datastore path: Location where all data will be stored
+- Keystore path: Location of the keystore
+- Temporary Directory path: Directory used for storing intermediate files
+- Keystore ID: Identity of the keystore that the node will utilize
+- Userstore path: Location where user data will be stored
+- BDP Directory: Directory containing the base data packages
+- Secret Key: Key used to secure passwords
+
 ```shell
-# SSH into explorer pod
-kubectl exec -it <explorer pod> -- sh
-
-# cd into bdp-files
-cd bdp-files
-
-# Execute command
-explorer --keystore /mnt/duct/keystores --keystore-id cz45gfv9ja90ilcndo3sxo9dc3bnm69ge9piqclu5a2lwp6z47jpyakr2dmwshxj --password test duct bdp create --bdp_directory /mnt/duct/bdps building-footprints city-admin-zones land-mask land-use-zoning leaf-area-index vegetation-land-use lcz-map vegfra-map traffic_baseline_SH.geojson traffic_ev100_SH.geojson power_baseline_SH_20160201.geojson power_baseline_LH_20160201.geojson power_ev100_SH_20160201.geojson power_ev100_LH_20160201.geojson 
+explorer --datastore $DATASTORE_PATH --keystore $KEYSTORE_PATH --temp-dir $TEMP_DIRECTORY_PATH --keystore-id '<put_id_here>' --password '<put_password_here>' --log-level INFO --log-path False service --userstore $USERSTORE_PATH --bdp_directory $BDP_PATH --secret_key '<put_secret_key_here>'
 ```
 
 ### Creating Explorer Users
@@ -71,13 +71,22 @@ To initialize and manage explorer users, use the following commands:
 explorer user init --userstore ${USERSTORE}
 
 # Create an explorer user
-explorer --keystore ${ENV_HOME}/keystores --password `cat ${ENV_HOME}/password.apps` user create --userstore ${USERSTORE} --node_address `cat ${ENV_HOME}/node_address`
+explorer  user create --userstore ${USERSTORE}
+
+? Enter address of the SaaS node REST service: 127.0.0.1:5001
+? Enter the login: foo.bar@email.com
+? Enter the name: foo bar
+? Enter the password [leave empty to generate]: ****
+User account created: foo.bar@email.com
+Publish identity vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa of user foo.bar@email.com to node at 127.0.0.1:5001
+
+The example above shows the identity created with ID `vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa`.
 
 # List explorer users
 explorer user list --userstore ${USERSTORE}
 
 # Remove an explorer user
-explorer user remove --userstore ${USERSTORE}
+explorer user remove --userstore ${USERSTORE} --login '<put_user_login_here>'
 ```
 
 ### Create Base Data Packages (BDPs)
