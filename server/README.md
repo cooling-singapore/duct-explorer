@@ -49,27 +49,43 @@ explorer
 ```
 
 ### Running Explorer
-When initializing, the user must provide the following:
+During initialization, the user must provide the following command-line parameters and respond to the prompts:
 
 - Datastore path: Location where all data will be stored
 - Keystore path: Location of the keystore
 - Temporary Directory path: Directory used for storing intermediate files
 - Keystore ID: Identity of the keystore that the node will utilize
+- Log Level: The level of logging, either 'Info' or 'Debug'
+- Log Path : The file path where log output will be stored
 - Userstore path: Location where user data will be stored
 - BDP Directory: Directory containing the base data packages
 - Secret Key: Key used to secure passwords
 
 ```shell
-explorer --datastore $DATASTORE_PATH --keystore $KEYSTORE_PATH --temp-dir $TEMP_DIRECTORY_PATH --keystore-id '<put_id_here>' --password '<put_password_here>' --log-level INFO --log-path False service --userstore $USERSTORE_PATH --bdp_directory $BDP_PATH --secret_key '<put_secret_key_here>'
+explorer --datastore $DATASTORE_PATH --keystore $KEYSTORE_PATH --temp-dir $TEMP_DIRECTORY_PATH --keystore-id '<put_id_here>' --password '<put_password_here>' --log-level INFO --log-path $LOG_PATH service --userstore $USERSTORE_PATH --bdp_directory $BDP_PATH --secret_key '<put_secret_key_here>'
+
+? Enter address for the server REST service: 127.0.0.1:5021
+? Enter address of the SaaS node REST service: 127.0.0.1:5001
+? Enter app domains (comma-separated): 127.0.0.1:5001
+using the following app domains: ['127.0.0.1:5001', 'explorer']
+using existing service user: service_explorer
+INFO:     Started server process [96840]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:5021 (Press CTRL+C to quit)
 ```
 
 ### Creating Explorer Users
 To initialize and manage explorer users, use the following commands:
 
+The user database can be initialized providing the Userstore path: 
 ```shell
 # Initialize explorer user
 explorer user init --userstore ${USERSTORE}
+```
 
+Users can be created interactively by following the prompts using:
+```shell
 # Create an explorer user
 explorer  user create --userstore ${USERSTORE}
 
@@ -79,20 +95,31 @@ explorer  user create --userstore ${USERSTORE}
 ? Enter the password [leave empty to generate]: ****
 User account created: foo.bar@email.com
 Publish identity vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa of user foo.bar@email.com to node at 127.0.0.1:5001
+```
 
-The example above shows the identity created with ID `vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa`.
+The example above shows the identity created with ID `vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa`
 
+After creating users, the full list of users can be viewed in the userstore path using:
+```shell
 # List explorer users
 explorer user list --userstore ${USERSTORE}
 
+Found 1 users in database at /Users/dkalapuge/userstore:
+LOGIN              NAME     DISABLED  KEYSTORE ID
+-----              ----     --------  -----------
+foo.bar@email.com  foo bar  No        vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa
+```
+
 # Remove an explorer user
+Users can be removed by their login.
+```shell
 explorer user remove --userstore ${USERSTORE} --login '<put_user_login_here>'
 ```
 
 ### Create Base Data Packages (BDPs)
 
 To create a BDP, use the following command:
-$LOCATION_OF_BDP_FILES refers to a directory that contains all the relevant data object content files needed to create a BDP.
+- Location of BDP Files : The directory that contains all the relevant data object content files needed to create a BDP.
 
 ```shell
 # Export relevant environment
