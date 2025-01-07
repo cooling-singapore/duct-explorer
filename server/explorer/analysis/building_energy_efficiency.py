@@ -428,7 +428,7 @@ class BuildingEnergyEfficiency(Analysis):
                     }
                 }
             },
-            "required_processors": ["bem-cea-gen", "bem-cea-sim"],
+            "required_processors": ["bem-cea-gen", "bem-cea-bee"],
             "required_bdp": [],
             "result_specifications": {}
         })
@@ -475,9 +475,9 @@ class BuildingEnergyEfficiency(Analysis):
     def _submit_sim_job(context: AnalysisContext, cea_run_package: SDKCDataObject,
                         cea_databases: SDKCDataObject, pv_parameters: Optional[Dict]) -> str:
         # find the processor
-        proc = context.sdk.find_processor_by_name('bem-cea-sim')
+        proc = context.sdk.find_processor_by_name("bem-cea-bee")
         if proc is None:
-            raise DUCTRuntimeError(f"Processor 'bem-cea-sim' not found.")
+            raise DUCTRuntimeError(f"Processor 'bem-cea-bee' not found.")
 
         # submit the job
         inputs = {
