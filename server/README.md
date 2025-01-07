@@ -39,51 +39,88 @@ Install the required python packages:
 ```shell
 pip install -r requirements.txt
 ```
-
-
-### First time setup
-Upload bdp-files to /mnt/duct with explorer pod.
 ```shell
-# Get running pod id of explorer
-kubectl get pods
-
-# Copy bdp-files to explorer pod
-kubectl cp /path/to/bdp-files <explorer-pod>:/mnt/duct/bdp-files
+pip install .
+```
+## Usage
+The DUCT Explorer can be used via a Command Line Interface (CLI) with this command once it is installed:
+```shell
+explorer
 ```
 
-Interactive shell with explorer pod
+### Running Explorer
+During initialization, the user must provide the following command-line parameters and respond to the prompts:
+
+- Datastore path: Location where all data will be stored
+- Keystore path: Location of the keystore
+- Temporary Directory path: Directory used for storing intermediate files
+- Keystore ID: Identity of the keystore that the node will utilize
+- Log Level: The level of logging, either 'Info' or 'Debug'
+- Log Path : The file path where log output will be stored
+- Userstore path: Location where user data will be stored
+- BDP Directory: Directory containing the base data packages
+- Secret Key: Key used to secure passwords
+
 ```shell
-# SSH into explorer pod
-kubectl exec -it <explorer pod> -- sh
+explorer --datastore $DATASTORE_PATH --keystore $KEYSTORE_PATH --temp-dir $TEMP_DIRECTORY_PATH --keystore-id '<put_id_here>' --password '<put_password_here>' --log-level INFO --log-path $LOG_PATH service --userstore $USERSTORE_PATH --bdp_directory $BDP_PATH --secret_key '<put_secret_key_here>'
 
-# cd into bdp-files
-cd bdp-files
-
-# Execute command
-explorer --keystore /mnt/duct/keystores --keystore-id cz45gfv9ja90ilcndo3sxo9dc3bnm69ge9piqclu5a2lwp6z47jpyakr2dmwshxj --password test duct bdp create --bdp_directory /mnt/duct/bdps building-footprints city-admin-zones land-mask land-use-zoning leaf-area-index vegetation-land-use lcz-map vegfra-map traffic_baseline_SH.geojson traffic_ev100_SH.geojson power_baseline_SH_20160201.geojson power_baseline_LH_20160201.geojson power_ev100_SH_20160201.geojson power_ev100_LH_20160201.geojson 
+? Enter address for the server REST service: 127.0.0.1:5021
+? Enter address of the SaaS node REST service: 127.0.0.1:5001
+? Enter app domains (comma-separated): 127.0.0.1:5001
+using the following app domains: ['127.0.0.1:5001', 'explorer']
+using existing service user: service_explorer
+INFO:     Started server process [96840]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:5021 (Press CTRL+C to quit)
 ```
-
+## Users
 ### Creating Explorer Users
 To initialize and manage explorer users, use the following commands:
 
+The user database can be initialized providing the Userstore path: 
 ```shell
 # Initialize explorer user
 explorer user init --userstore ${USERSTORE}
+```
 
+Users can be created interactively by following the prompts using:
+```shell
 # Create an explorer user
-explorer --keystore ${ENV_HOME}/keystores --password `cat ${ENV_HOME}/password.apps` user create --userstore ${USERSTORE} --node_address `cat ${ENV_HOME}/node_address`
+explorer  user create --userstore ${USERSTORE}
 
+? Enter address of the SaaS node REST service: 127.0.0.1:5001
+? Enter the login: foo.bar@email.com
+? Enter the name: foo bar
+? Enter the password [leave empty to generate]: ****
+User account created: foo.bar@email.com
+Publish identity vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa of user foo.bar@email.com to node at 127.0.0.1:5001
+```
+
+The example above shows the identity created with ID `vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa`
+
+After creating users, the full list of users can be viewed in the userstore path using:
+```shell
 # List explorer users
 explorer user list --userstore ${USERSTORE}
 
-# Remove an explorer user
-explorer user remove --userstore ${USERSTORE}
+Found 1 users in database at /Users/dkalapuge/userstore:
+LOGIN              NAME     DISABLED  KEYSTORE ID
+-----              ----     --------  -----------
+foo.bar@email.com  foo bar  No        vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa
 ```
 
+### Remove an explorer user
+Users can be removed by their login.
+```shell
+explorer user remove --userstore ${USERSTORE} --login '<put_user_login_here>'
+```
+
+## Base Data Packages (BDPs)
 ### Create Base Data Packages (BDPs)
 
 To create a BDP, use the following command:
-$LOCATION_OF_BDP_FILES refers to a directory that contains all the relevant data object content files needed to create a BDP.
+- Location of BDP Files : The directory that contains all the relevant data object content files needed to create a BDP.
 
 ```shell
 # Export relevant environment
@@ -96,7 +133,7 @@ source ${ENV_HOME}/venv-servers/bin/activate
 cd $LOCATION_OF_BDP_FILES
 
 # Create BDP
-explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-areas population-data network-data se-data scenario-data-from_scene
+explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-zones.geojson land-use-zoning.geojson building-footprints.geojson vegetation-trees-zip lcz-map.tiff traffic_baseline_SH.geojson traffic_ev100_SH.geojson power_baseline_SH_20160201.geojson power_baseline_LH_20160201.geojson description.md 
 ```
 BDP information:
 
