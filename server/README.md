@@ -5,147 +5,309 @@ The repository is deprecated and will no longer be maintained. For further infor
 
 ## Directory Structure
 DUCT Explorer is organized into two main components, reflecting its directory structure:
-
-#### DUCT Explorer Server
-Corresponds to the **server** folder, housing all backend services and configurations.
-
-#### DUCT Explorer Client
-Corresponds to the **client** folder, containing all frontend resources for interacting with the server.
+- `server`: contains the Python code and related resources for the DUCT Explorer server.
+- `client`: contains the JavaScript code and related resources for the DUCT Explorer frontend.
 
 ## Overview
 DUCT Explorer provides explorer services, which depend on SaaS Middleware services. This documentation will guide you through setting up the DUCT Explorer Server, along with testing and administering its components.
 
 ## Prerequisites
-Ensure that the SaaS Middleware services are operational before initiating DUCT Explorer.
-- Python 3.10 (does not work with newer Python versions)
-- Linux or MacOS Operating System (not tested with Windows)
+- Python 3.10 (does not work with newer Python versions).
+- Linux or MacOS Operating System (not tested with Windows).
+- SaaS Middleware (see [https://github.com/cooling-singapore/saas-middleware](https://github.com/cooling-singapore/saas-middleware) for further information and installation guide).
 
-## Setup Instructions
 ## Install
-
-Clone the repository:
-```shell
-git clone https://github.com/cooling-singapore/duct-explorer
-```
-
 Create and activate the virtual environment:
 ```shell
 python3.10 -m venv venv-explorer
 source venv-explorer/bin/activate
 ```
 
-Install the required python packages:
+Clone the repository:
+```shell
+git clone https://github.com/cooling-singapore/duct-explorer
+```
 
+Install the Explorer server application and its dependencies:
 ```shell
-pip install -r requirements.txt
+pip install duct-explorer/server
 ```
-```shell
-pip install .
-```
+
 ## Usage
-The DUCT Explorer can be used via a Command Line Interface (CLI) with this command once it is installed:
+The Explorer server can be used via a Command Line Interface (CLI) with this command 
+once it has been installed:
 ```shell
 explorer
 ```
 
-### Running Explorer
-During initialization, the user must provide the following command-line parameters and respond to the prompts:
+The `explorer` CLI tool supports commands to manage user accounts, to manage base data
+packages, and to run an Explorer server instance. The following sections describe each
+command in detail. 
 
-- Datastore path: Location where all data will be stored
-- Keystore path: Location of the keystore
-- Temporary Directory path: Directory used for storing intermediate files
-- Keystore ID: Identity of the keystore that the node will utilize
-- Log Level: The level of logging, either 'Info' or 'Debug'
-- Log Path : The file path where log output will be stored
-- Userstore path: Location where user data will be stored
-- BDP Directory: Directory containing the base data packages
-- Secret Key: Key used to secure passwords
+The examples in the remainder of this section illustrate how to use the `explorer`
+CLI interactively. Each command can be parameterised to be used in a non-interactive
+manner. Use the `--help` flag to see the arguments for each command.
 
+Note that the examples shown below assume that a SaaS Middleware node is running on 
+`127.0.0.1:5001`.
+
+### Managing User Accounts
+User accounts consist of two parts: Explorer-specific information stored in the 
+"user store" and a SaaS identity associated with the user which is published to the
+SaaS backend used by the Explorer upon user account creation (see below). For 
+convenience, it is recommended to set an environment variable:
 ```shell
-explorer --datastore $DATASTORE_PATH --keystore $KEYSTORE_PATH --temp-dir $TEMP_DIRECTORY_PATH --keystore-id '<put_id_here>' --password '<put_password_here>' --log-level INFO --log-path $LOG_PATH service --userstore $USERSTORE_PATH --bdp_directory $BDP_PATH --secret_key '<put_secret_key_here>'
-
-? Enter address for the server REST service: 127.0.0.1:5021
-? Enter address of the SaaS node REST service: 127.0.0.1:5001
-? Enter app domains (comma-separated): 127.0.0.1:5001
-using the following app domains: ['127.0.0.1:5001', 'explorer']
-using existing service user: service_explorer
-INFO:     Started server process [96840]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:5021 (Press CTRL+C to quit)
+export USERSTORE=$HOME/.userstore-27
 ```
-## Users
-### Creating Explorer Users
-To initialize and manage explorer users, use the following commands:
 
-The user database can be initialized providing the Userstore path: 
+#### Initialise User Store
+Before creating and managing Explorer users, use the following command to initialise 
+the user store:
 ```shell
-# Initialize explorer user
 explorer user init --userstore ${USERSTORE}
 ```
 
-Users can be created interactively by following the prompts using:
-```shell
-# Create an explorer user
-explorer  user create --userstore ${USERSTORE}
 
+#### Create Users Accounts
+User accounts can be created interactively by following the prompts using:
+```shell
+explorer user create --userstore ${USERSTORE}
+```
+
+The dialogue looks like this:
+```
 ? Enter address of the SaaS node REST service: 127.0.0.1:5001
 ? Enter the login: foo.bar@email.com
 ? Enter the name: foo bar
 ? Enter the password [leave empty to generate]: ****
 User account created: foo.bar@email.com
-Publish identity vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa of user foo.bar@email.com to node at 127.0.0.1:5001
+Publish identity 66q4ll4ng0epuqr5r7ycqx4anoyz3v1unvwysmn8q18ff82cp3zjbtlu4545jn5q of user foo.bar@email.com to node at 127.0.0.1:5001
 ```
 
-The example above shows the identity created with ID `vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa`
+Address of the SaaS node should point at your SaaS node instance. Login, name and 
+password are that for the user account to be created. The identity of the user account
+is automatically published to the SaaS node instance.
 
-After creating users, the full list of users can be viewed in the userstore path using:
+The example above shows the identity of the user account: `66q4ll4ng0epuqr5r7ycqx4anoyz3v1unvwysmn8q18ff82cp3zjbtlu4545jn5q`
+
+#### List Users Accounts
+The full list of users can be viewed using the following prompt:
 ```shell
-# List explorer users
 explorer user list --userstore ${USERSTORE}
+```
 
-Found 1 users in database at /Users/dkalapuge/userstore:
+The command produces output that looks like this:
+```
+Found 1 users in database at /Users/aydth/.userstore-27:
 LOGIN              NAME     DISABLED  KEYSTORE ID
 -----              ----     --------  -----------
-foo.bar@email.com  foo bar  No        vlaq9jk9ojioi69qk5edqdmdnvejmdqfpvb6e5812si1mahsggwbfh9i61ba4ywa
+foo.bar@email.com  foo bar  No        66q4ll4ng0epuqr5r7ycqx4anoyz3v1unvwysmn8q18ff82cp3zjbtlu4545jn5q
 ```
 
-### Remove an explorer user
-Users can be removed by their login.
+The example above shows the user account and its identity that was created earlier.
+
+#### Remove User Account
+User accounts can be removed interactively by following the prompts using:
 ```shell
-explorer user remove --userstore ${USERSTORE} --login '<put_user_login_here>'
+explorer user remove --userstore ${USERSTORE}
 ```
 
-## Base Data Packages (BDPs)
-### Create Base Data Packages (BDPs)
-
-To create a BDP, use the following command:
-- Location of BDP Files : The directory that contains all the relevant data object content files needed to create a BDP.
-
+#### Updating User Accounts
+User accounts can be updated interactively by following the prompts using:
 ```shell
-# Export relevant environment
-export ENV_HOME=$DEV
-export LOCATION_OF_BDP_FILES=$HOME/{BDPNAME}
-
-# Activate virtual environment
-source ${ENV_HOME}/venv-servers/bin/activate
-
-cd $LOCATION_OF_BDP_FILES
-
-# Create BDP
-explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp create --bdp_directory ${ENV_HOME}/bdps city-admin-zones.geojson land-use-zoning.geojson building-footprints.geojson vegetation-trees-zip lcz-map.tiff traffic_baseline_SH.geojson traffic_ev100_SH.geojson power_baseline_SH_20160201.geojson power_baseline_LH_20160201.geojson description.md 
+explorer user update --userstore ${USERSTORE}
 ```
-BDP information:
 
-| City Name     | Package Name (Example) | Bounding Box                         | Dimensions | Timezone         | 
-|:--------------|:-----------------------|:-------------------------------------|:-----------|:-----------------|
-| Singapore     | Public (v24)           | 103.55161,1.53428,104.14966,1.19921  | 211,130    | Asia/Singapore   |
-
-### Remove Base Data Package (BDP)
+#### Enabling/Disabling User Accounts
+User accounts can be enabled/disabled interactively by following the prompts using:
 ```shell
-export ENV_HOME=$DEV
-source ${ENV_HOME}/venv-servers/bin/activate
-
-# Remove BDP
-explorer --keystore ${ENV_HOME}/keystore --keystore-id `cat ${ENV_HOME}/keystore_id.explorer` --password `cat ${ENV_HOME}/password.apps` duct bdp remove --bdp_directory ${ENV_HOME}/bdps
+explorer user enable --userstore ${USERSTORE}
 ```
+or 
+```shell
+explorer user disable --userstore ${USERSTORE}
+```
+
+Disabled user accounts will not be able to login to the Explorer application.
+
+
+### Managing Base Data Packages (BDPs)
+Base data packages consist of two parts: data objects stored in the SaaS backend
+and some files stored in a "BDP store". For convenience, it is recommended to set 
+an environment variable:
+```shell
+export BDPSTORE=$HOME/.bdpstore-27
+```
+
+Data objects are being uploaded to the SaaS backend on behalf of a valid identity
+that is known to the SaaS backend. For convenience, it is recommended to set 
+an environment variable to point at a key store with an identity known to the SaaS
+backend:
+```shell
+export KEYSTORE=$HOME/.keystore-27
+```
+
+
+#### Create Base Data Packages (BDPs)
+The BDP for DUCT v0.27 contains the following datasets:
+- `building-footprints.geojson`: Geometries defining building footprints (including height information). Source: OpenStreetMap. This file needs to be created by the user and should be a GeoJSON file containing the building geometries with height information obtained from the source.
+- `city-admin-zones.geojson`: Geometries defining the administrative zones of the city. Source: [Master Plan 2019 Subzone Boundary](https://beta.data.gov.sg/datasets/d_8594ae9ff96d0c708bc2af633048edfb/view).
+- `vegetation.tar.gz`: Trees only. Source: [Trees.sg and National Parks Board](https://github.com/cheeaun/sgtreesdata). This file should be the `data` folder that can be obtained from the source and all its contents archived as `tar.gz` file. 
+- `land-use.geojson`: Geometries defining the land use. Source: [Master Plan 2019 Land Use Layer](https://beta.data.gov.sg/datasets/d_90d86daa5bfaa371668b84fa5f01424f/view). The GeoJSON file can be downloaded directly from the source and only needs to be renamed.
+- `lcz-baseline.tiff`: Local Climate Zone of Singapore (30m resolution). Source: Cooling Singapore.
+- `sh-traffic-ev100.json` and `sh-traffic-baseline.json`: Traffic anthropogenic heat emission profiles (sensible) for Singapore with and without electric vehicles. Source: Cooling Singapore
+- `sh-power-baseline.json` and `lh-power-baseline.json`: Power plant anthropogenic heat emission profiles (sensible+latent) for Singapore (assuming no electric vehicles). Source: Cooling Singapore
+- `description.md`: description of the datasets (very similar to the description here but formatted to be used by the Explorer).
+
+Only `building-footprints.geojson`, `lcz-baseline.tiff`, `sh-traffic-ev100.json`, 
+`sh-traffic-baseline.json`, `sh-power-baseline.json`, `lh-power-baseline.json` and 
+`description.md` are provided here in this repository. The remaining datasets should 
+be obtained from their respective sources. For the examples provided in this example, 
+it is assumed the following files are also available:
+- `city-admin-zones.geojson` 
+- `land-use.geojson`
+- `vegetation.tar.gz`
+
+For this example, it is assumed all 10 files are located at `$HOME/Desktop/bdp-files`. 
+To create a BDP, first navigate to the folder that contains the BDP files:
+```shell
+cd $HOME/Desktop/bdp-files
+```
+
+Then use the following command to build the BDP:
+```shell
+explorer --keystore ${KEYSTORE} bdp create --bdp_directory ${BDPSTORE} building-footprints.geojson city-admin-zones.geojson description.md land-use.geojson lcz-baseline.tiff lh-power-baseline.json sh-power-baseline.json sh-traffic-baseline.json sh-traffic-ev100.json vegetation.tar.gz  
+```
+
+The command will begin a dialogue to prompt the user to enter some information 
+about the BDP. Use the following information:
+- Name of city: Singapore
+- Name of BDP: Public (v27) - or any other name...
+- Bounding Box: 103.55161,1.53428,104.14966,1.19921
+- Dimension: 211,130
+- Timezone: Asia/Singapore
+
+The dialogue will also ask the user to match the expected BDP items with the filenames
+provided by the user and look like this:
+```
+? Select the keystore: test/test/jfvyt26w1jkqxj7e8h4867xujk5wmphvg3jeumiggy3l293m7m7h30tr7j1a7wal
+? Enter password: ****
+? Enter the target SaaS node's REST address [host:port]: 127.0.0.1:5001
+? Enter the name of the city: Singapore
+? Enter the name of the base data package: Public (v27)
+? Enter the bounding box [west, north, east, south]: 103.55161,1.53428,104.14966,1.19921
+? Enter the dimension [width, height]: 211,130
+? Enter the timezone: Asia/Singapore
+Not found or not a file: traffic_baseline_SH.geojson
+(.venv) aydth@SEC-M11109 bdp-files % explorer --keystore ${KEYSTORE} bdp create --bdp_directory ${BDPSTORE} building-footprints.geojson city-admin-zones.geojson description.md land-use.geojson lcz-baseline.tiff lh-power-baseline.json sh-power-baseline.json sh-traffic-baseline.json sh-traffic-ev100.json vegetation.tar.gz
+? Select the keystore: test/test/jfvyt26w1jkqxj7e8h4867xujk5wmphvg3jeumiggy3l293m7m7h30tr7j1a7wal
+? Enter password: ****
+? Enter the target SaaS node's REST address [host:port]: 127.0.0.1:5001
+? Enter the name of the city: Singapore
+? Enter the name of the base data package: Public (v27)
+? Enter the bounding box [west, north, east, south]: 103.55161,1.53428,104.14966,1.19921
+? Enter the dimension [width, height]: 211,130
+? Enter the timezone: Asia/Singapore
+? Select the DUCT.GeoVectorData/geojson file to be used as 'city-admin-zones': city-admin-zones.geojson
+? Select the DUCT.GeoVectorData/geojson file to be used as 'building-footprints': building-footprints.geojson
+? Select the DUCT.GeoVectorData/geojson file to be used as 'land-use': land-use.geojson
+? Select the DUCT.GeoVectorData/geojson file to be used as 'vegetation': vegetation.tar.gz
+? Select the duct.lcz_map/tiff file to be used as 'lcz-baseline': lcz-baseline.tiff
+? Select the duct.ah-profile/geojson file to be used as 'sh-traffic-baseline': sh-traffic-baseline.json
+? Select the duct.ah-profile/geojson file to be used as 'sh-traffic-ev100': sh-traffic-ev100.json
+? Select the duct.ah-profile/geojson file to be used as 'sh-power-baseline': sh-power-baseline.json
+? Select the duct.ah-profile/geojson file to be used as 'lh-power-baseline': lh-power-baseline.json
+? Select the *.BDPDescription/markdown file to be used as 'description': description.md
+Feature IDs with duplicated geometries: 601443529, 962150397
+Feature with ID 172518481 has invalid height value
+Feature with ID 172518491 has invalid height value
+Feature with ID 172518499 has invalid height value
+Feature with ID 539766023 has invalid height value
+Uploading files...done
+Creating database...Loading city-admin-zones: 0 seconds
+Loading building-footprints: 2 seconds
+Loading vegetation: 5 seconds
+Loading land-cover: 3 seconds
+Loading land-use: 5 seconds
+Loading import geometries as Default zone configuration: 121 seconds
+done
+Created building base data package 962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1: db=/Users/aydth/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.db json=/Users/aydth/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.json
+```
+
+
+#### List Base Data Packages
+To see what BDPs are available, use the following command:
+```shell
+explorer bdp list --bdp_directory ${BDPSTORE}
+```
+
+The output looks like this:
+```
+Found 1 base data packages at /Users/aydth/.bdps-27:
+BDP ID                                                            NAME          CITY       BOUNDING BOX                            DIMENSION  TIMEZONE
+------                                                            ----          ----       ------------                            ---------  --------
+962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1  Public (v27)  Singapore  103.55161, 1.53428, 104.14966, 1.19921  211, 130   Asia/Singapore
+```
+
+The example above shows the BDP that has been created earlier.
+
+#### Remove Base Data Package (BDP)
+A BDP can also be removed using the following command:
+```shell
+explorer --keystore ${KEYSTORE} bdp remove --bdp_directory ${BDP_DIRECTORY}
+```
+
+
+
+### Running an Explorer Server Instance
+The Explorer server provides a REST API that is used by the Explorer frontend. The
+REST interface uses a JWT authentication approach. For this purpose a secret needs
+to be provided to the server, further referred to as `SECRET`.
+
+The Explorer server communicates with the SaaS backend for the purpose of accessing 
+data objects (via the SaaS DOR) and to manage simulation jobs (via the SaaS RTI). 
+For this purpose the Explorer server requires a SaaS identity to identify itself 
+to the SaaS backend.
+
+The Explorer server stores project related data as well as cached data objects and
+temporary files in a datastore. For convenience, it is recommended to set an 
+environment variable:
+```shell
+export DATASTORE=$HOME/.datastore-explorer-27
+```
+
+If the `DATASTORE` directory does not exist yet, make sure to create it first:
+```shell
+mkdir $DATASTORE
+```
+
+To start a server instance, use the following command:
+```shell
+explorer --datastore ${DATASTORE} --keystore ${KEYSTORE} service --userstore ${USERSTORE} --bdp_directory ${BDPSTORE} --secret_key ${SECRET}
+```
+
+A dialogue confirms the addresses for the server as well as for the SaaS backend. 
+It looks like this:
+```
+? Enter address for the server REST service: 127.0.0.1:5021
+? Enter address of the SaaS node REST service: 127.0.0.1:5001
+importing base data package 962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1
+INFO:     Started server process [45185]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:5021 (Press CTRL+C to quit)
+using new service user: service_explorer
+Waiting to be terminated...
+? Terminate the server? (y/N) 
+```
+
+The server instance will run indefinitely until interrupted via `CTRL-C` or by entering
+'y' in the console.
+
+Note that the first address (server REST service) is for the Explorer server. This is
+the one that the Explorer frontend needs to connect to. The second address (SaaS node
+REST service) is the address that the SaaS node is running on.
+
+Also note that the Explorer server can also run non-interactively (for example as part
+of a system service) by using corresponding command line arguments. Use 
+`explorer service --help` for details.
