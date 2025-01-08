@@ -24,7 +24,7 @@ setup(
     install_requires=requirements,
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/cooling-singapore/duct-server',
+    url='https://github.com/cooling-singapore/duct-explorer',
     project_urls={
         'Source': 'https://github.com/cooling-singapore/duct-explorer',
         'Tracker': 'https://github.com/cooling-singapore/duct-explorer/issues',
@@ -35,7 +35,7 @@ setup(
     long_description_content_type='text/markdown',
     entry_points={
         'console_scripts': [
-            'explorer = explorer.cli.base:main'
+            'explorer = explorer.cli:main'
         ]
     },
     classifiers=[
