@@ -22,6 +22,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from tabulate import tabulate
 
 from explorer.bdp.base import BaseDataPackageDB
+from explorer.bdp.bdp import bdp_spec, DUCTBaseDataPackageDB
 from explorer.dots.dot import ImportableDataObjectType, DataObjectType
 from explorer.project import DBAnalysisRun, DBAnalysisGroup, DBScene
 from explorer.renderer.base import NetworkRenderer
@@ -31,16 +32,15 @@ from explorer.analysis.base import Analysis
 from explorer.module.base import BuildModule
 from explorer.view.base import View
 
-logger = Logging.get('explorer.cli.base')
+logger = Logging.get('explorer.cli')
 
 Base = declarative_base()
 
 
 class BDPCreate(CLICommand):
-    def __init__(self, bdp_spec: dict, bdp_class,
-                 name: str = 'create', description: str = 'create base data package and upload it to a DOR') -> None:
+    def __init__(self, name: str = 'create', description: str = 'create base data package and upload it to a DOR') -> None:
         self._bdp_spec = bdp_spec
-        self._bdp_class = bdp_class
+        self._bdp_class = DUCTBaseDataPackageDB
 
         super().__init__(name, description, arguments=[
             Argument('--bdp_directory', dest='bdp_directory', action='store', required=False,
@@ -407,13 +407,11 @@ class Service(CLICommand):
             Argument('--bdp_directory', dest='bdp_directory', action='store', required=False,
                      help=f"the directory that contains the base data packages"),
             Argument('--secret_key', dest='secret_key', action='store', required=False,
-                     help=f"the secret key used to secure passwords"),
+                     help=f"the secret for JWT token generation"),
             Argument('--server_address', dest='server_address', action='store',
                      help=f"address used by the server REST service interface (default: '{self.default_server_address}')."),
             Argument('--node_address', dest='node_address', action='store',
-                     help=f"address used by the node REST  service interface (default: '{self.default_node_address}')."),
-            Argument('--app_domains', dest='app_domains', action='store',
-                     help=f"the comma-separated application domains to be used (e.g., duct,infrarisk)")
+                     help=f"address used by the node REST  service interface (default: '{self.default_node_address}').")
         ])
 
     def execute(self, args: dict) -> None:
@@ -445,11 +443,6 @@ class Service(CLICommand):
                           message="Enter address of the SaaS node REST service:",
                           default=self.default_node_address)
 
-        # get the app domains
-        prompt_if_missing(args, 'app_domains', prompt_for_string,
-                          message="Enter app domains (comma-separated):",
-                          default=self.default_node_address)
-
         # initialise user database and publish all identities
         UserDB.initialise(args['userstore'])
         UserDB.publish_all_user_identities(extract_address(args['node_address']))
@@ -463,32 +456,25 @@ class Service(CLICommand):
                                 extract_address(args['node_address']),
                                 args['datastore'])
 
-        # get packages
-        domains = args['app_domains'].split(',')
-        domains = [d.strip() for d in domains]
-        domains.append('explorer')  # add the generic domain
-        print(f"using the following app domains: {domains}")
-
-        # add all known views (for the primary domain ONLY! that's because there would be otherwise confusion
-        # which 'xyz' view to use if there are multiples.)
-        for c in ExplorerServer.search_for_classes([f"{domains[0]}.views"], View):
+        # add all known views
+        for c in ExplorerServer.search_for_classes(["explorer.view"], View):
             server.add_view(c())
 
         # add all known analyses
-        for c in ExplorerServer.search_for_classes([f"{d}.analyses" for d in domains], Analysis):
+        for c in ExplorerServer.search_for_classes(["explorer.analysis"], Analysis):
             server.add_analysis_instance(c())
 
         # add all build modules
-        for c in ExplorerServer.search_for_classes([f"{d}.modules" for d in domains], BuildModule):
+        for c in ExplorerServer.search_for_classes(["explorer.module"], BuildModule):
             server.add_build_module(c())
 
         # add all building object types
-        for c in ExplorerServer.search_for_classes([f"{d}.dots" for d in domains], DataObjectType):
+        for c in ExplorerServer.search_for_classes(["explorer.dots"], DataObjectType):
             if c != ImportableDataObjectType:
                 server.add_data_object_type(c())
 
         # add all network renderers
-        for c in ExplorerServer.search_for_classes([f"{d}.renderer" for d in domains], NetworkRenderer):
+        for c in ExplorerServer.search_for_classes(["explorer.renderer"], NetworkRenderer):
             server.add_network_renderers(c())
 
         # startup the server
@@ -550,15 +536,13 @@ def main():
                 UserDisable(),
                 UserUpdate()
             ]),
-            CLICommandGroup('analysis', 'manage analysis runs', commands=[
-                AnalysisList()
+            CLICommandGroup('bdp', 'manage base data packages', commands=[
+                BDPCreate(),
+                BDPRemove(),
+                BDPList()
             ]),
             Service()
         ]
-
-        # search for and add domain specific CLI command groups
-        for c in ExplorerServer.search_for_classes(['duct', 'infrares'], CLICommandGroup):
-            commands.append(c())
 
         cli = CLIParser('Explorer command line interface (CLI)', arguments=[
             Argument('--datastore', dest='datastore', action='store', default=default_datastore,
