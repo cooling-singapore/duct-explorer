@@ -249,7 +249,7 @@ The example above shows the BDP that has been created earlier.
 #### Remove Base Data Package (BDP)
 A BDP can also be removed using the following command:
 ```shell
-explorer --keystore ${KEYSTORE} bdp remove --bdp_directory ${BDP_DIRECTORY}
+explorer --keystore ${KEYSTORE} bdp remove --bdp_directory ${BDPSTORE}
 ```
 
 
