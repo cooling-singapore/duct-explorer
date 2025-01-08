@@ -98,7 +98,7 @@ explorer user list --userstore ${USERSTORE}
 
 The command produces output that looks like this:
 ```
-Found 1 users in database at /Users/aydth/.userstore-27:
+Found 1 users in database at /Users/foobar/.userstore-27:
 LOGIN              NAME     DISABLED  KEYSTORE ID
 -----              ----     --------  -----------
 foo.bar@email.com  foo bar  No        66q4ll4ng0epuqr5r7ycqx4anoyz3v1unvwysmn8q18ff82cp3zjbtlu4545jn5q
@@ -146,6 +146,11 @@ backend:
 ```shell
 export KEYSTORE=$HOME/.keystore-27
 ```
+
+Note: the `KEYSTORE` should point at a valid key store location with identities that
+are known to you SaaS node. For example, you may point at the same key store location
+as used by the SaaS node itself. This is needed to create and remove BDPs as they need
+to upload/delete objects from the SaaS backend.
 
 
 #### Create Base Data Packages (BDPs)
@@ -198,8 +203,7 @@ provided by the user and look like this:
 ? Enter the bounding box [west, north, east, south]: 103.55161,1.53428,104.14966,1.19921
 ? Enter the dimension [width, height]: 211,130
 ? Enter the timezone: Asia/Singapore
-Not found or not a file: traffic_baseline_SH.geojson
-(.venv) aydth@SEC-M11109 bdp-files % explorer --keystore ${KEYSTORE} bdp create --bdp_directory ${BDPSTORE} building-footprints.geojson city-admin-zones.geojson description.md land-use.geojson lcz-baseline.tiff lh-power-baseline.json sh-power-baseline.json sh-traffic-baseline.json sh-traffic-ev100.json vegetation.tar.gz
+(.venv) foobar@SEC-M11109 bdp-files % explorer --keystore ${KEYSTORE} bdp create --bdp_directory ${BDPSTORE} building-footprints.geojson city-admin-zones.geojson description.md land-use.geojson lcz-baseline.tiff lh-power-baseline.json sh-power-baseline.json sh-traffic-baseline.json sh-traffic-ev100.json vegetation.tar.gz
 ? Select the keystore: test/test/jfvyt26w1jkqxj7e8h4867xujk5wmphvg3jeumiggy3l293m7m7h30tr7j1a7wal
 ? Enter password: ****
 ? Enter the target SaaS node's REST address [host:port]: 127.0.0.1:5001
@@ -231,7 +235,7 @@ Loading land-cover: 3 seconds
 Loading land-use: 5 seconds
 Loading import geometries as Default zone configuration: 121 seconds
 done
-Created building base data package 962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1: db=/Users/aydth/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.db json=/Users/aydth/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.json
+Created building base data package 962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1: db=/Users/foobar/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.db json=/Users/foobar/.bdpstore-27/962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1.json
 ```
 
 
@@ -243,7 +247,7 @@ explorer bdp list --bdp_directory ${BDPSTORE}
 
 The output looks like this:
 ```
-Found 1 base data packages at /Users/aydth/.bdps-27:
+Found 1 base data packages at /Users/foobar/.bdps-27:
 BDP ID                                                            NAME          CITY       BOUNDING BOX                            DIMENSION  TIMEZONE
 ------                                                            ----          ----       ------------                            ---------  --------
 962fdc241c0540d90dd3bb3f9fa386dd6827a44cf426cccca4efc4276690f4d1  Public (v27)  Singapore  103.55161, 1.53428, 104.14966, 1.19921  211, 130   Asia/Singapore
