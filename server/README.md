@@ -203,15 +203,6 @@ provided by the user and look like this:
 ? Enter the bounding box [west, north, east, south]: 103.55161,1.53428,104.14966,1.19921
 ? Enter the dimension [width, height]: 211,130
 ? Enter the timezone: Asia/Singapore
-(.venv) foobar@SEC-M11109 bdp-files % explorer --keystore ${KEYSTORE} bdp create --bdp_directory ${BDPSTORE} building-footprints.geojson city-admin-zones.geojson description.md land-use.geojson lcz-baseline.tiff lh-power-baseline.json sh-power-baseline.json sh-traffic-baseline.json sh-traffic-ev100.json vegetation.tar.gz
-? Select the keystore: test/test/jfvyt26w1jkqxj7e8h4867xujk5wmphvg3jeumiggy3l293m7m7h30tr7j1a7wal
-? Enter password: ****
-? Enter the target SaaS node's REST address [host:port]: 127.0.0.1:5001
-? Enter the name of the city: Singapore
-? Enter the name of the base data package: Public (v27)
-? Enter the bounding box [west, north, east, south]: 103.55161,1.53428,104.14966,1.19921
-? Enter the dimension [width, height]: 211,130
-? Enter the timezone: Asia/Singapore
 ? Select the DUCT.GeoVectorData/geojson file to be used as 'city-admin-zones': city-admin-zones.geojson
 ? Select the DUCT.GeoVectorData/geojson file to be used as 'building-footprints': building-footprints.geojson
 ? Select the DUCT.GeoVectorData/geojson file to be used as 'land-use': land-use.geojson
