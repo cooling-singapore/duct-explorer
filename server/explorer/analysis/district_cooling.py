@@ -58,7 +58,7 @@ class DistrictCooling(Analysis):
                                    " For more information, please contact the respective authors.",
             "sample_image": self.name()+'.png',
             "ui_schema": {},
-            "required_processors": ["bem-cea-gen", "dcn-cea-sim"],
+            "required_processors": ["bem-cea-gen", "bem-cea-dcn"],
             "required_bdp": [],
             "result_specifications": {}
         })
@@ -105,9 +105,9 @@ class DistrictCooling(Analysis):
     def _submit_sim_job(context: AnalysisContext, cea_run_package: SDKCDataObject,
                         cea_databases: SDKCDataObject) -> str:
         # find the processor
-        proc = context.sdk.find_processor_by_name('dcn-cea-sim')
+        proc = context.sdk.find_processor_by_name('bem-cea-dcn')
         if proc is None:
-            raise DUCTRuntimeError(f"Processor 'dcn-cea-sim' not found.")
+            raise DUCTRuntimeError(f"Processor 'bem-cea-dcn' not found.")
 
         # submit the job
         inputs = {
