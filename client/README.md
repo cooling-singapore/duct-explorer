@@ -1,93 +1,35 @@
-# DUCT Explorer Frontend
+# DUCT Explorer Client
+The DUCT Explorer Client is the frontend of the Explorer and is a client/server
+applications.
 
-## Running the application locally
-
-### Prerequisites
-
+## Prerequisites
 - Node
 - Yarn
-- [NX CLI](https://nx.dev/latest/react/getting-started/nx-cli)
-
-### Install dependencies
-
-Run `yarn install`
-
-### Start development server
-
-- Update environment variables. In most cases only the `apiHost` would have to be updated. Please refer the `Set up environment variables` section below
-- Run `yarn nx run duct:serve:development` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-- Refer [NX run documentation](https://nx.dev/nx-api/nx/documents/run) to learn more about the run command
+- DUCT Explorer Server instance installed (here it is assumed the server runs 
+on `127.0.0.1:5021`).
 
 
-## Defining a new environment (optional)
-
-### Set up environment variables
-
-- Navigate to `apps/duct/src/environments` and define a new file and change the variables required for the new environment.
-- Refer to `environment.ts` for an example
-
-### Set up NX project configuration
-
-- Navigate to the `project.json` file located in `apps/duct`.
-- Add a new build configuration for the deployment in this path: targets > build > configurations
-- The name you use for the configuration is what would be used to run the NX build command.
-- Update the `fileReplacements` property with the name of the environment file you created in the first step.
-- Set up any other properties as needed.
-
-
-## Build
-
-### Bundling the application
-
-Run `yarn nx run duct:build:development` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-### Create a Docker image
-
-Example usage:
-
-```
-docker build \
--t duct-explorer \
---build-arg TAG_NAME='duct-dev-0.0.1 \
---build-arg BUILD_CONFIG='development' \
+## Install
+Ensure `yarn` and `node` prerequisites are installed. Go to the `client` folder 
+and install dependencies:
+```shell
+cd client
+yarn install
 ```
 
-#### Arguments
 
-- `-t duct-explorer`: Assigns a name (duct-explorer) to the resulting Docker image.
-- `--build-arg TAG_NAME='duct-dev-0.0.1'`: Passes the `TAG_NAME` argument to the build process, which specifies the tag or version for the build.
-- `--build-arg BUILD_CONFIG='development'`: Passes the `BUILD_CONFIG` argument to define the configuration mode (e.g., development, staging, or production).
+## Usage
+Before starting the client, update the `apiHost` variable in 
+`apps/duct/src/environments/environment.dev.ts`. The IP/host and port should point
+at the address at which the Explorer server is running. By default, this is
+`127.0.0.1:5021`.
 
-## Project Structure
-
-```root
-├── apps/
-│   └── duct/             # The explorer react application. Refer the section below for details
-├── libs/                 # Shared libraries
-│   └── data/             # Contains shared type specifications and services
-│   └── ui/               # Contains shared UI components
-├── nx.json               # Nx workspace configuration
-├── .dockerignore         # Ignore list for docker
-├── package.json          # Dependencies and scripts
-└── tsconfig.base.json    # Base TypeScript configuration
+The client can be started as follows:
+```shell
+yarn nx run duct:serve:development
 ```
 
-## Application Structure
-
-```root
-├── duct/                 # The explorer react application
-|   ├── src/
-|   |   ├── app/          # Contains react components organised by route
-|   |   |   ├── context/  # Contains react context types used in the application
-|   |   |   ├── utils/    # Contains utilities used in the application
-|   |   |   └── app.tsx   # Defines the app shell and route configurations
-|   |   ├── assets/       # Contains image assets used by the explorer
-|   |   └── environments/ # Contains environment configurations for any custom environments
-├── project.json          # Project configuration settings like build and run targets
-└── Dockerfile            # Commands to build a docker image
-```
-
-## Recommended Code Refinements
-
-- The map layer components in `apps\duct\src\app\utils\ui\map-layers` to be converted to hooks which return an instace of the layer type.
-- Docker file needs to be updated to use the serve package so it no longer depends on nginx and use a multi-stage build.
+By default, the client server is running on `http://localhost:4200/`. After starting
+the client, use the browser to navigate to `http://localhost:4200/`. You should see
+the DUCT Explorer login screen. You may need to create a user account first. See
+Explorer REST server documentation for this purpose.

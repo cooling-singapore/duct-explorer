@@ -1,4 +1,6 @@
-# DUCT Explorer Server
+# DUCT Explorer REST Server
+The Explorer REST server is part of the Explorer backend and exposes a REST API
+which is utilised by the Explorer Client.
 
 ## Prerequisites
 - Python 3.10 (does not work with newer Python versions).
