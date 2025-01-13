@@ -3,8 +3,7 @@
 
 export const environment = {
   production: false,
-  apiHost: 'https://dev.api.duct.sg/explorer/v1',
-  dsn: '',
+  apiHost: 'https://<backend>/explorer/v1',
   PROJECT_SESSION_KEY: 'project',
   APP_TITLE: 'DUCT Explorer',
   APP_LOGO: './assets/logo-light.png',

@@ -19,28 +19,6 @@
         "webpackConfig": "@nx/react/plugins/webpack"
       },
       "configurations": {
-        "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.prod.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
         "development": {
           "fileReplacements": [
             {
@@ -78,98 +56,9 @@
               "maximumError": "5mb"
             }
           ]
-        },
-        "staging": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.staging.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
-        "uat": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.uat.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
-        "legacy-uat": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.legacy-uat.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
-        },
-
-        "staging-explorer-aws": {
-          "fileReplacements": [
-            {
-              "replace": "apps/duct/src/environments/environment.ts",
-              "with": "apps/duct/src/environments/environment.staging.aws.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "extractLicenses": false,
-          "vendorChunk": false,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "4mb",
-              "maximumError": "5mb"
-            }
-          ]
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "development"
     },
     "serve": {
       "executor": "@nx/webpack:dev-server",
@@ -178,10 +67,6 @@
         "hmr": true
       },
       "configurations": {
-        "production": {
-          "buildTarget": "duct:build:production",
-          "hmr": false
-        },
         "development": {
           "buildTarget": "duct:build:development"
         },

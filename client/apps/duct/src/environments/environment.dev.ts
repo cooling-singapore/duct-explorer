@@ -1,7 +1,9 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// When building for production, this file is replaced with `environment.prod.ts`.
+
 export const environment = {
-  production: true,
-  apiHost: 'https://dev.api.duct.sg/explorer/v1',
-  dsn: 'https://e124951afd81dcf496b9b3b0622ee6e1@o4506512290611200.ingest.sentry.io/4506517258174464',
+  production: false,
+  apiHost: 'https://<backend>/explorer/v1',
   PROJECT_SESSION_KEY: 'project',
   APP_TITLE: 'DUCT Explorer',
   APP_LOGO: './assets/logo-light.png',
