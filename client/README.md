@@ -14,16 +14,16 @@ Run `yarn install`
 
 ### Start development server
 
-Run `yarn nx run duct:serve:development` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-Refer [NX run documentation](https://nx.dev/nx-api/nx/documents/run) to learn more about the run command
+- Update environment variables. In most cases only the `apiHost` would have to be updated. Please refer the `Set up environment variables` section below
+- Run `yarn nx run duct:serve:development` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+- Refer [NX run documentation](https://nx.dev/nx-api/nx/documents/run) to learn more about the run command
 
 
 ## Defining a new environment (optional)
 
 ### Set up environment variables
 
-- Navigate to `apps/duct/src/environments` and define a new file and change the variables required for the new deployment. In most cases only the `apiHost` would have to be updated.
+- Navigate to `apps/duct/src/environments` and define a new file and change the variables required for the new environment.
 - Refer to `environment.ts` for an example
 
 ### Set up NX project configuration
