@@ -11,7 +11,7 @@ with open(os.path.join(package_name, "meta.py")) as f:
     exec(f.read(), None, _locals)
 
 # read the long description
-with open('README.md') as f:
+with open('../README.md') as f:
     long_description = f.read()
 
 # read the requirements
