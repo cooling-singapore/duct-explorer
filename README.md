@@ -48,7 +48,7 @@ single SaaS full node (with both, storage and execution, capabilities). A more
 sophisticated setup may have multiple nodes and distinguish between execution and 
 storage nodes.
 
-1. Create service file for SaaS Middleware node at 
+### Create service file for SaaS Middleware node at 
 `/etc/systemd/system/saas_node.service` with the following content:
 ```
 [Unit]
@@ -75,7 +75,7 @@ ExecStart=/bin/bash -c 'source ${VENV_PATH}/bin/activate && saas-node --keystore
 WantedBy=multi-user.target
 ```
 
-2. Create service file for Explorer server at 
+### Create service file for Explorer server at 
 `/etc/systemd/system/explorer_server.service` with the following content:
 ```
 [Unit]
@@ -104,7 +104,7 @@ ExecStart=/bin/bash -c 'source ${VENV_PATH}/bin/activate && explorer --datastore
 WantedBy=multi-user.target
 ```
 
-3. Create service file for Explorer client at 
+### Create service file for Explorer client at 
 `/etc/systemd/system/explorer_client.service` with the following content:
 ```
 [Unit]
