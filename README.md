@@ -39,27 +39,20 @@ started.
 For detailed install and usage instructions, refer to the relevant sections in the
 [server](server/README.md) and [client](client/README.md) documentation.
 
-## Usage
+## Setup System Services
+The following describes an example setup for a Ubuntu 22.04 environment. Note that
+this example is for general guidance only and not suitable for production 
+environments. It is assumed that a Ubuntu 22.04 is used and a storage partition is 
+available and mounted to `/mnt/storage/`. Furthermore, this example setup uses a
+single SaaS full node (with both, storage and execution, capabilities). A more 
+sophisticated setup may have multiple nodes and distinguish between execution and 
+storage nodes.
 
-### Setup the EC2 instance 
-
-### Running services as system service
-To run your app as a system service on your EC2 instance, you can use systemd, which is a service manager for Linux systems. Here’s how to set it up:
-
-### SaaS Middleware
-
-1. Create a Service File
-Create a .service file for your app in the /etc/systemd/system/ directory. This file will define how your app is run.
-
-Example service file:
-```shell
-sudo nano /etc/systemd/system/saas-middleware.service
-```
-
-Add the following configuration (adjust based on your app's details):
+1. Create service file for SaaS Middleware node at 
+`/etc/systemd/system/saas_node.service` with the following content:
 ```
 [Unit]
-Description=saas-middleware
+Description=saas_node
 After=network.target
 
 [Service]
@@ -67,163 +60,26 @@ Type=simple
 User=ubuntu
 Restart=always
 RestartSec=5
-ExecStart=/mnt/storage/run_saas_service.sh /mnt/storage/venv-saas /home/ubuntu/.keystore/ apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g /mnt/storage/password.nodes /mnt/storage/log.0 /home/ubuntu/.datastore-explorer-27 10.8.0.1:5001 10.8.0.1:4001 10.8.0.1:4001 full 
-
-[Install]
-WantedBy=multi-user.target                  
-```
-2. Create the run_saas_service.sh file
-
-Create a executable file to include your execute start script.
-
-```
-#!/bin/bash
-
-venv_path=$1
-keystore=$2
-keystore_id=$3
-password_file=$4
-log_path=$5
-datastore=$6
-rest_address=$7
-p2p_address=$8
-boot_address=$9
-type=${10}
-extra=${11}
-
-echo "venv_path: ${venv_path}"
-echo "Keystore: ${keystore}"
-echo "Keystore ID: ${keystore_id}"
-echo "Password File: ${password_file}"
-echo "Log Path: ${log_path}"
-echo "Datastore: ${datastore}"
-echo "REST Address: ${rest_address}"
-echo "P2P Address: ${p2p_address}"
-echo "Boot Address: ${boot_address}"
-echo "Type: ${type}"
-echo "Extra: ${extra}"
-
-source ${venv_path}/bin/activate
-
-saas-node --keystore ${keystore} --keystore-id ${keystore_id} --password `cat ${password_file}` --log-path ${log_path} run --datastore ${datastore} --rest-address ${rest_address} --p2p-address ${p2p_address} --boot-node ${boot_address} --type ${type} ${extra}
-deactivate
-```
-
-3. Reload systemd, Enable, and Start the Service
-After creating the service file, reload systemd to recognize the new service, then enable and start it:
-```shell
-sudo systemctl daemon-reload
-sudo systemctl enable saas-middleware.service
-sudo systemctl start saas-middleware.service
-```
-
-4. Check the Status of Your Service
-```shell
-sudo systemctl status saas-middleware.service
-```
-5. View Logs (Optional)
-To view the logs of your app running as a service:
-```shell
-sudo journalctl -u saas-middleware.service
-```
-
-### Explorer Server
-
-1. Create a Service File
-Create a .service file for your app in the /etc/systemd/system/ directory. This file will define how your app is run.
-
-Example service file:
-```shell
-sudo nano /etc/systemd/system/saas-middleware.service
-```
-
-Add the following configuration (adjust based on your app's details):
-```
-[Unit]
-Description=explorer-server
-After=network.target
-
-[Service]
-Type=simple
-User=ubuntu
-Restart=always
-RestartSec=5
-ExecStart=/mnt/storage/run_explorer_service.sh /mnt/storage/venv-explorer /home/ubuntu/.datastore-explorer-27 /home/ubuntu/.keystore apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g /mnt/storage/password.apps /mnt/storage/log.explorer /home/ubuntu/.userstore-27 /home/ubuntu/.bdpstore-27 tTwOhaXu9MnkyDebb1rncyFw47mmdg1M 10.8.0.1:5021 10.8.0.1:5001
+Environment="VENV_PATH=/mnt/storage/venv-saas"
+Environment="KEYSTORE=/home/ubuntu/.keystore/"
+Environment="KEYSTORE_ID=apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g"
+Environment="PASSWORD_FILE=/mnt/storage/password.saas_node"
+Environment="LOG_PATH=/mnt/storage/log.0"
+Environment="DATASTORE=/home/ubuntu/.datastore-saas"
+Environment="REST_ADDRESS=10.8.0.1:5001"
+Environment="P2P_ADDRESS=10.8.0.1:4001"
+Environment="BOOT_ADDRESS=10.8.0.1:4001"
+ExecStart=/bin/bash -c 'source ${VENV_PATH}/bin/activate && saas-node --keystore ${KEYSTORE} --keystore-id ${KEYSTORE_ID} --password $(cat ${PASSWORD_FILE}) --log-path ${LOG_PATH} run --datastore ${DATASTORE} --rest-address ${REST_ADDRESS} --p2p-address ${P2P_ADDRESS} --boot-node ${BOOT_ADDRESS} --type full'
 
 [Install]
 WantedBy=multi-user.target
-~                           
-```
-2. Create the run_explorer_service.sh file
-
-Create a executable file to include your execute start script.
-
-```
-#!/bin/bash
-
-venv_path=$1
-datastore=$2
-keystore=$3
-keystore_id=$4
-password_file=$5
-log_path=$6
-userstore=$7
-bdp_path=$8
-secret=$9
-server_address=${10}
-node_address=${11}
-
-echo "venv_path: ${venv_path}"
-echo "Datastore: ${datastore}"
-echo "Keystore: ${keystore}"
-echo "Keystore Id: ${keystore_id}"
-echo "Password File: ${password_file}"
-echo "Log Path: ${log_path}"
-echo "Userstore: ${userstore}"
-echo "BDP path: ${bdp_path}"
-echo "Secret: ${secret}"
-echo "Server Address: ${server_address}"
-echo "Node Address: ${node_address}"
-
-source ${venv_path}/bin/activate
-
-explorer --datastore ${datastore} --keystore ${keystore} --keystore-id ${keystore_id} --password `cat ${password_file}` --log-path ${log_path} --log-level INFO service --userstore ${userstore} --bdp_directory ${bdp_path} --secret_key ${secret} --server_address ${server_address} --node_address ${node_address}
-
-deactivate
 ```
 
-3. Reload systemd, Enable, and Start the Service
-After creating the service file, reload systemd to recognize the new service, then enable and start it:
-```shell
-sudo systemctl daemon-reload
-sudo systemctl enable explorer-server.service
-sudo systemctl start explorer-server.service
-```
-
-4. Check the Status of Your Service
-```shell
-sudo systemctl status explorer-server.service
-```
-5. View Logs (Optional)
-To view the logs of your app running as a service:
-```shell
-sudo journalctl -u explorer-server.service
-```
-
-### Explorer Client
-
-1. Create a Service File
-Create a .service file for your app in the /etc/systemd/system/ directory. This file will define how your app is run.
-
-Example service file:
-```shell
-sudo nano /etc/systemd/system/explorer-client.service
-```
-
-Add the following configuration (adjust based on your app's details):
+2. Create service file for Explorer server at 
+`/etc/systemd/system/explorer_server.service` with the following content:
 ```
 [Unit]
-Description=explorer-client
+Description=explorer_server
 After=network.target
 
 [Service]
@@ -231,48 +87,72 @@ Type=simple
 User=ubuntu
 Restart=always
 RestartSec=5
-ExecStart=/mnt/storage/run_explorer_client.sh /mnt/storage/duct-explorer/client 10.8.0.1
+Environment="VENV_PATH=/mnt/storage/venv-explorer"
+Environment="DATASTORE=/home/ubuntu/.datastore-explorer"
+Environment="KEYSTORE=/home/ubuntu/.keystore"
+Environment="KEYSTORE_ID=apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g"
+Environment="PASSWORD_FILE=/mnt/storage/password.explorer_server"
+Environment="LOG_PATH=/mnt/storage/log.explorer"
+Environment="USERSTORE=/home/ubuntu/.userstore"
+Environment="BDP_PATH=/home/ubuntu/.bdpstore"
+Environment="SECRET=tTwOhaXu9MnkyDebb1rncyFw47mmdg1M"
+Environment="SERVER_ADDRESS=10.8.0.1:5021"
+Environment="NODE_ADDRESS=10.8.0.1:5001"
+ExecStart=/bin/bash -c 'source ${VENV_PATH}/bin/activate && explorer --datastore ${DATASTORE} --keystore ${KEYSTORE} --keystore-id ${KEYSTORE_ID} --password $(cat ${PASSWORD_FILE}) --log-path ${LOG_PATH} --log-level INFO service --userstore ${USERSTORE} --bdp_directory ${BDP_PATH} --secret_key ${SECRET} --server_address ${SERVER_ADDRESS} --node_address ${NODE_ADDRESS}'
 
 [Install]
-WantedBy=multi-user.target                  
-```
-2. Create the run_explorer_client.sh file
-
-Create a executable file to include your execute start script.
-
-```
-#!/bin/bash
-
-workspace=$1
-ip_address=$2
-
-echo "workspace: ${workspace}"
-echo "IP Address: ${ip_address}"
-
-cd ${workspace}
-
-sudo yarn nx serve --host=${ip_address}
+WantedBy=multi-user.target
 ```
 
-3. Reload systemd, Enable, and Start the Service
-After creating the service file, reload systemd to recognize the new service, then enable and start it:
+3. Create service file for Explorer client at 
+`/etc/systemd/system/explorer_client.service` with the following content:
+```
+[Unit]
+Description=explorer_client
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Restart=always
+RestartSec=5
+Environment="WORKSPACE=/mnt/storage/duct-explorer/client"
+Environment="CLIENT_ADDRESS=10.8.0.1"
+ExecStart=/bin/bash -c 'cd ${WORKSPACE} && yarn nx serve --host=${CLIENT_ADDRESS}'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Ensure the environment variables are set appropriately. You will have to modify
+the sample values according to your installation and environment.
+
+Reload systemd, enable and start the services:
 ```shell
 sudo systemctl daemon-reload
-sudo systemctl enable explorer-client.service
-sudo systemctl start explorer-client.service
+sudo systemctl enable saas_node.service
+sudo systemctl enable explorer_server.service
+sudo systemctl enable explorer_client.service
+sudo systemctl restart saas_node.service
+sudo systemctl restart explorer_server.service
+sudo systemctl restart explorer_client.service
 ```
 
-4. Check the Status of Your Service
+Check the status of the services:
 ```shell
-sudo systemctl status explorer-client.service
-```
-5. View Logs (Optional)
-To view the logs of your app running as a service:
-```shell
-sudo journalctl -u explorer-client.service
+sudo systemctl status saas_node.service
+sudo systemctl status explorer_server.service
+sudo systemctl status explorer_client.service
 ```
 
-### Deploy processors
+Check the logs of the services:
+```shell
+sudo journalctl -u saas_node.service
+sudo journalctl -u explorer_server.service
+sudo journalctl -u explorer_client.service
+```
+
+## Deploy DUCT Federation of Models Processors
 Analysis types will appear in the Explorer application only after deploying the required processors. Follow the steps below to deploy processors:
 
 The Runtime Infrastructure (RTI) module executes jobs using deployed processors. These jobs consume input data (from a DOR as data objects or JSON) and produce output data (stored in a DOR). The processor descriptor specifies the required input and generated output.
