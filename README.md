@@ -61,11 +61,11 @@ User=ubuntu
 Restart=always
 RestartSec=5
 Environment="VENV_PATH=/mnt/storage/venv-saas"
-Environment="KEYSTORE=/home/ubuntu/.keystore/"
+Environment="KEYSTORE=/mnt/storage/.keystore/"
 Environment="KEYSTORE_ID=apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g"
 Environment="PASSWORD_FILE=/mnt/storage/password.saas_node"
 Environment="LOG_PATH=/mnt/storage/log.0"
-Environment="DATASTORE=/home/ubuntu/.datastore-saas"
+Environment="DATASTORE=/mnt/storage/.datastore-saas"
 Environment="REST_ADDRESS=10.8.0.1:5001"
 Environment="P2P_ADDRESS=10.8.0.1:4001"
 Environment="BOOT_ADDRESS=10.8.0.1:4001"
@@ -88,13 +88,13 @@ User=ubuntu
 Restart=always
 RestartSec=5
 Environment="VENV_PATH=/mnt/storage/venv-explorer"
-Environment="DATASTORE=/home/ubuntu/.datastore-explorer"
-Environment="KEYSTORE=/home/ubuntu/.keystore"
+Environment="DATASTORE=/mnt/storage/.datastore-explorer"
+Environment="KEYSTORE=/mnt/storage/.keystore"
 Environment="KEYSTORE_ID=apo9c5mpj6y5muycm8c1uashzehf55jx9ortn26v9aabmmefljxvycicix4la70g"
 Environment="PASSWORD_FILE=/mnt/storage/password.explorer_server"
 Environment="LOG_PATH=/mnt/storage/log.explorer"
-Environment="USERSTORE=/home/ubuntu/.userstore"
-Environment="BDP_PATH=/home/ubuntu/.bdpstore"
+Environment="USERSTORE=/mnt/storage/.userstore"
+Environment="BDP_PATH=/mnt/storage/.bdpstore"
 Environment="SECRET=tTwOhaXu9MnkyDebb1rncyFw47mmdg1M"
 Environment="SERVER_ADDRESS=10.8.0.1:5021"
 Environment="NODE_ADDRESS=10.8.0.1:5001"
@@ -126,6 +126,15 @@ WantedBy=multi-user.target
 
 Ensure the environment variables are set appropriately. You will have to modify
 the sample values according to your installation and environment.
+- `VENV_PATH`: Virtual environment path of the SaaS node
+- `KEYSTORE`: Path to the keystore containing identities recognized by the SaaS node
+- `KEYSTORE_ID`: Identity of the keystore that the node will use
+- `PASSWORD_FILE`: Path to the file where passwords should be stored
+- `LOG_PATH`: Path to the file where logs are stored
+- `DATASTORE`: Path to the directory for storing all SaaS-related data
+- `USERSTORE`: Path to the location where Explorer users are created
+- `BDP_PATH`: Path to the location where BDPs are created
+- `SECRET`: The secret key for JWT token generation
 
 Reload systemd, enable and start the services:
 ```shell
