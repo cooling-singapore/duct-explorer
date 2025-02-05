@@ -126,10 +126,10 @@ WantedBy=multi-user.target
 
 Ensure the environment variables are set appropriately. You will have to modify
 the sample values according to your installation and environment.
-- `VENV_PATH`: Virtual environment path of the SaaS node
-- `KEYSTORE`: Path to the keystore containing identities recognized by the SaaS node
+- `VENV_PATH`: Path to Python virtual environment
+- `KEYSTORE`: Path to the keystore containing identities recognised by the SaaS node
 - `KEYSTORE_ID`: Identity of the keystore that the node will use
-- `PASSWORD_FILE`: Path to the file where passwords should be stored
+- `PASSWORD_FILE`: Path to the file where passwords is stored
 - `LOG_PATH`: Path to the file where logs are stored
 - `DATASTORE`: Path to the directory for storing all SaaS-related data
 - `USERSTORE`: Path to the location where Explorer users are created
