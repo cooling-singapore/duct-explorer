@@ -126,12 +126,22 @@ WantedBy=multi-user.target
 
 Ensure the environment variables are set appropriately. You will have to modify
 the sample values according to your installation and environment.
-- `VENV_PATH`: Path to Python virtual environment
-- `KEYSTORE`: Path to the keystore containing identities recognised by the SaaS node
+
+**SaaS Middleware environment variables**
+- `VENV_PATH`: Path to Python virtual environment of SaaS node
+- `KEYSTORE`: Path to the keystore containing identities recognized by the SaaS node
 - `KEYSTORE_ID`: Identity of the keystore that the node will use
-- `PASSWORD_FILE`: Path to the file where passwords is stored
-- `LOG_PATH`: Path to the file where logs are stored
+- `PASSWORD_FILE`: Path to the file where passwords should be stored
+- `LOG_PATH`: Path to the file where SaaS logs are stored
 - `DATASTORE`: Path to the directory for storing all SaaS-related data
+
+**Explorer server environment variables**
+- `VENV_PATH`: Path to Python virtual environment of Explorer
+- `DATASTORE`: Path to the directory for storing all Explorer server related data
+- `KEYSTORE`: Path to the keystore containing identities recognized by the SaaS node
+- `KEYSTORE_ID`: Identity of the keystore that the node will use
+- `PASSWORD_FILE`: Path to the file where passwords should be stored
+- `LOG_PATH`: Path to the file where Explorer logs are stored
 - `USERSTORE`: Path to the location where Explorer users are created
 - `BDP_PATH`: Path to the location where BDPs are created
 - `SECRET`: The secret key for JWT token generation
