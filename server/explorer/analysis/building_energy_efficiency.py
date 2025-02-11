@@ -426,17 +426,6 @@ class BuildingEnergyEfficiency(Analysis):
                     "custom_tilt_angle": {
                         "ui:widget": "select"
                     }
-                },
-                "efficiency_standards": {
-                    "hotel": {
-                        "ui:widget": "hidden",
-                    },
-                    "retail": {
-                        "ui:widget": "hidden",
-                    }
-                },
-                "pv": {
-                    "ui:widget": "hidden",
                 }
             },
             "required_processors": ["bem-cea-gen", "bem-cea-bee"],
@@ -550,7 +539,7 @@ class BuildingEnergyEfficiency(Analysis):
             # check if any of the standards are custom
             bld_eff_std_path = os.path.join(context.analysis_path, f"bld_eff_std_package.zip")
             with zipfile.ZipFile(bld_eff_std_path, 'w') as f:
-                for category in ['office', 'residential']:
+                for category in ['office', 'residential', 'hotel', 'retail']:
                     name = args['efficiency_standards'][category]
                     if name.startswith('obj_id:'):
                         # find the object

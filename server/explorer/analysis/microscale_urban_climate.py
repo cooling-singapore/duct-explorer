@@ -159,9 +159,9 @@ def _result_specification() -> dict:
                                             'estimated from the air temperature, wind speed, relative humidity and mean'
                                             ' radiant temperature at 2.5m (in ˚C)',
             'color_schema': [
-                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-5˚C (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': '0 (A == B)'},
-                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+5˚C (A > B)'}
+                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
+                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -183,9 +183,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Air Temperature (in Δ˚C)',
             'statistics_table_description': 'Near-surface (2.5m) air temperature (in ˚C)',
             'color_schema': [
-                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-5˚C (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': '0 (A == B)'},
-                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+5˚C (A > B)'}
+                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
+                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -207,9 +207,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Surface Temperature (in Δ˚C)',
             'statistics_table_description': 'Temperature at the top surface, such as ground and roof (in ˚C)',
             'color_schema': [
-                {'value': -10, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-10˚C (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': '0 (A == B)'},
-                {'value': 10, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+10˚C (A > B)'}
+                {'value': -10, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#000000', alpha), 'label': 'A == B'},
+                {'value': 10, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -230,9 +230,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Relative Humidity (in Δ%)',
             'statistics_table_description': 'Near-surface (2.5m) relative humidity (in %)',
             'color_schema': [
-                {'value': -20, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-20% (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': '0 (A == B)'},
-                {'value': 20, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+20% (A > B)'}
+                {'value': -20, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
+                {'value': 20, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -254,9 +254,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Wind Speed (in Δm/s)',
             'statistics_table_description': 'Near-surface (2.5m) wind speed (in m/s)',
             'color_schema': [
-                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-5m/s (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': '0 (A == B)'},
-                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+5m/s (A > B)'}
+                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
+                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -276,9 +276,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Predominant Wind Direction (Δ˚)',
             'statistics_table_description': 'Near-surface (2.5m) wind direction (in ˚)',
             'color_schema': [
-                {'value': -180, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-180˚ (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': '0 (A == B)'},
-                {'value': 180, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+180˚ (A > B)'}
+                {'value': -180, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
+                {'value': 180, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         },
@@ -300,9 +300,9 @@ def _result_specification() -> dict:
             'legend_title': 'Difference in Wind Speed (in Δm/s)',
             'statistics_table_description': 'Near-surface (2.5m) wind speed (in m/s)',
             'color_schema': [
-                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': '-5m/s (B > A)'},
-                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': '0 (A == B)'},
-                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': '+5m/s (A > B)'}
+                {'value': -5, 'color': hex_color_to_components('#2c7bb6', alpha), 'label': 'B > A'},
+                {'value': 0.0, 'color': hex_color_to_components('#ffffff', 0), 'label': 'A == B'},
+                {'value': 5, 'color': hex_color_to_components('#d7191c', alpha), 'label': 'A > B'}
             ],
             'no_data': -999999
         }
