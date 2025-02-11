@@ -1,4 +1,4 @@
-__version__ = '0.27.0'
+__version__ = '0.28.0'
 __name__ = 'duct-explorer'
 __title__ = 'Digital Urban Climate Twin Explorer'
 __description__ = ''
