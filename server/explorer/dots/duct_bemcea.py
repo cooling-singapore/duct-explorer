@@ -327,29 +327,47 @@ def generate_building_bar_chart(title: str, subtitle: str, field: str, geojson: 
 class BuildingAnnualEnergy(DataObjectType):
     DATA_TYPE = 'duct.BuildingAnnualEnergy'
 
-    def _merge_to_building_properties(self, annual_energy_data_path: str, building_footprints: dict) -> dict:
+    def _merge_to_building_properties(self, annual_energy_data_path: str, building_footprints: dict,
+                                      export: bool = False) -> dict:
         # read the annual energy data
         with open(annual_energy_data_path, 'r') as f:
             annual_energy_data = json.load(f)
+
+        if export:
+            # use unit-appended keys for export
+            keys = {
+                'energy_consumption_MWhyr': 'GRID_MWhyr',
+                'GFA_m2': 'GFA_m2',
+                'EUI_kWhyrm2': 'EUI_kWhyrm2',
+                'EEI_kWhyrm2': 'EEI_kWhyrm2',
+                'operating_hours': 'OH_h'
+            }
+        else:
+            keys = {
+                'energy_consumption': 'GRID_MWhyr',
+                'GFA': 'GFA_m2',
+                'EUI': 'EUI_kWhyrm2',
+                'EEI': 'EEI_kWhyrm2',
+                'operating_hours': 'OH_h'
+            }
 
         # add the annual energy data to the building feature properties
         for feature in building_footprints['features']:
             properties = feature['properties']
 
             # get data for this building
-            building_id = str(feature['properties']['id'])
+            building_id = str(properties['id'])
             if building_id in annual_energy_data:
-                properties['energy_consumption'] = annual_energy_data[building_id]['GRID_MWhyr']
-                properties['GFA'] = annual_energy_data[building_id]['GFA_m2']
-                properties['EUI'] = annual_energy_data[building_id]['EUI_kWhyrm2']
-                properties['EEI'] = annual_energy_data[building_id]['EEI_kWhyrm2']
-                properties['operating_hours'] = annual_energy_data[building_id]['OH_h']
+                for prop, key in keys.items():
+                    properties[prop] = annual_energy_data[building_id][key]
             else:
-                properties['energy_consumption'] = 0
-                properties['GFA'] = 0
-                properties['EUI'] = 0
-                properties['EEI'] = 0
-                properties['operating_hours'] = 0
+                for prop in keys:
+                    properties[prop] = 0
+
+            # in export, remove unit-less values
+            if export:
+                for key in ['energy_consumption', 'GFA', 'EUI', 'EEI']:
+                    properties.pop(key, None)
 
         return building_footprints
 
@@ -430,7 +448,7 @@ class BuildingAnnualEnergy(DataObjectType):
     def export_feature(self, content_path: str, parameters: dict, export_path: str, export_format: str) -> None:
         if export_format == 'geojson':
             # read the annual energy data and merge with building properties
-            geojson = self._merge_to_building_properties(content_path, parameters.get('building_footprints'))
+            geojson = self._merge_to_building_properties(content_path, parameters.get('building_footprints'), True)
 
             # write the combined data to the export destination
             with open(export_path, 'w') as f:
@@ -445,8 +463,10 @@ class BuildingAnnualEnergy(DataObjectType):
             building_footprints_0: dict = parameters['A'].get('building_footprints')
             building_footprints_1: dict = parameters['B'].get('building_footprints')
 
-            geojson_0 = self._merge_to_building_properties(content_path0, parameters['A'].get('building_footprints'))
-            geojson_1 = self._merge_to_building_properties(content_path1, parameters['B'].get('building_footprints'))
+            geojson_0 = self._merge_to_building_properties(content_path0, parameters['A'].get('building_footprints'),
+                                                           True)
+            geojson_1 = self._merge_to_building_properties(content_path1, parameters['B'].get('building_footprints'),
+                                                           True)
 
             variable = parameters['A']['variable']
 
