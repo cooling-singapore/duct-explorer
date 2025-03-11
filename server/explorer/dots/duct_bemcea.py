@@ -890,7 +890,38 @@ def create_network_map(network: dict, system_name: str, cluster_name: str) -> di
     network_map = {
         "type": "network",
         "title": f"{renderer.title()} ({system_name}: {cluster_name})",
-        "pointData": {},
+        "pointData": {
+            "type": "geojson",
+            "title": renderer.point_title(),
+            "geojson": {
+                "type": "FeatureCollection",
+                "features": points
+            },
+            "renderer": renderer.point_renderer(),
+            "labelingInfo": [
+                {
+                    "symbol": {
+                      "type": "label-3d",
+                      "symbolLayers": [
+                        {
+                          "type": "text",
+                          "material": {
+                            "color": "black",
+                          },
+                          "halo": {
+                            "color": "white",
+                            "size": 3,
+                          },
+                          "size": 10,
+                        },
+                      ],
+                    },
+                    "labelPlacement": "above-center",
+                    "labelExpression": "DC Plant",
+                    "where": "Type = 'PLANT'"
+                }
+            ]
+        },
         "lineData": {
             "type": "geojson",
             "title": renderer.line_title(),
