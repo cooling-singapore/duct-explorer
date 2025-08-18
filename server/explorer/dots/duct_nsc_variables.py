@@ -45,8 +45,12 @@ def extract_nsc_data(content_path: str, parameters: dict, key: str = '', no_data
             south=float(bounding_box[0])
         )
 
-        # determine the timestamp if interest
-        datetime_0h: datetime.datetime = datetime.datetime.strptime(parameters['datetime_0h'], '%Y%m%d%H%M%S')
+        # determine the timestamp of interest
+        if 'datetime_0h' in parameters:
+            datetime_0h: datetime.datetime = datetime.datetime.strptime(parameters['datetime_0h'], '%Y%m%d%H%M%S')
+        else:
+            now = datetime.datetime.now()  # local time
+            datetime_0h: datetime.datetime = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
         # do we have 2 or 3 spatial dimensions?
         print(f"data.attrs['timestamps']={data.attrs['timestamps']}")
@@ -57,6 +61,10 @@ def extract_nsc_data(content_path: str, parameters: dict, key: str = '', no_data
         timestamps = [int(t) for t in timestamps]
 
         result_filter = parameters['result_filter'] if 'result_filter' in parameters else 'time'
+
+        # use index 0 if time is missing
+        if result_filter == 'time' and 'time' not in parameters:
+            parameters['time'] = 0
 
         # extracts and processes hourly data according to the timestamp index
         def extract_hour_data(results, t_idx_value):
@@ -87,7 +95,7 @@ def extract_nsc_data(content_path: str, parameters: dict, key: str = '', no_data
             datetime_th: datetime.datetime = datetime_0h + datetime.timedelta(hours=int(parameters['time']))
             datetime_th: str = datetime_th.strftime('%Y%m%d%H%M%S')
 
-            t_idx = timestamps.index(int(datetime_th)) if int(datetime_th) in timestamps else None
+            t_idx = timestamps.index(int(datetime_th)) if int(datetime_th) in timestamps else parameters['time']
             # extract data for the timestamp index
             data = extract_hour_data(data, t_idx)
 
@@ -293,33 +301,6 @@ class NearSurfaceClimateVariableRaster(DataObjectType):
 
         no_data = parameters['no_data']
         color_schema = list(parameters['color_schema'])
-
-        # # determine min/max color in schema and a 'outlier' value (outlier value is just a value outside the normal
-        # # range defined by the colors and that is not the no_data value either).
-        # min_color_value = color_schema[0]['value']
-        # max_color_value = color_schema[-1]['value']
-        # outlier_value = int(max(no_data, max_color_value) + 1)
-        # print(f"min_color_value: {min_color_value}")
-        # print(f"max_color_value: {max_color_value}")
-        # print(f"no_data: {no_data}")
-        # print(f"outlier_value: {outlier_value}")
-        #
-        # # do we have outliers below/above the defined color schema?
-        # value_mask = raster != no_data
-        # min_value = np.min(raster[value_mask])
-        # max_value = np.max(raster[value_mask])
-        # print(f"min_value: {min_value}")
-        # print(f"max_value: {max_value}")
-        # if min_value < min_color_value or max_value > max_color_value:
-        #     # determine the outlier mask, i.e., all values that are outliers
-        #     outlier_mask = ((raster < min_color_value) | (raster > max_color_value)) & (raster != no_data)
-        #     raster[outlier_mask] = outlier_value
-        #
-        #     # add an outlier color
-        #     color_schema.append(
-        #         {'value': outlier_value, 'color': hex_color_to_ints('#ff00ff', 255), 'label': 'Outliers'}
-        #     )
-        # print(f"color_schema: {color_schema}")
 
         # convert to JSON format
         json_data = []

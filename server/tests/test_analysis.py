@@ -9,12 +9,15 @@ from saas.core.helpers import get_timestamp_now
 
 from explorer.analysis.base import AnalysisStatus, Analysis, AnalysisContext
 from explorer.analysis.mesoscale_urban_climate import normalise, MesoscaleUrbanClimateAnalysis
+from explorer.analysis.microscale_urban_climate_scout import MicroscaleUrbanClimateScoutAnalysis
 from explorer.analysis.microscale_urban_climate import MicroscaleUrbanClimateAnalysis
 from explorer.dots.area_of_interest import AreaOfInterest
 from explorer.project import DBAnalysisRun, AnalysisContextImpl, make_analysis_id
 from explorer.schemas import Scene, AnalysisInfo, AnalysisResult
 from explorer.server import EnquireAnalysisResponse
 from tests.conftest import DUCT_FOM_REPOSITORY, DUCT_FOM_COMMIT_ID, EXPLORER_DATA_PATH
+
+nextcloud_path = os.path.join(os.environ['HOME'], 'Nextcloud', 'DT-Lab', 'Testing')
 
 
 def helper_upload_and_deploy(node_context, url: str, commit_id: str, proc_path: str, proc_config: str,
@@ -301,3 +304,83 @@ def test_miuc_extract_feature(wd_path, explorer_server, explorer_project, node_c
     analysis.extract_feature(content_paths, result, parameters, project, node_context, export_path, json_path)
     assert os.path.isfile(export_path)
     assert os.path.isfile(json_path)
+
+
+def test_miucs_scout_prepare_input(self):
+    analysis = MicroscaleUrbanClimateScoutAnalysis()
+    sdk = self._context
+
+    # upload area of interest to DOR
+    aoi_obj_path = os.path.join(nextcloud_path, 'duct_dots', 'aoi.geojson')
+    aoi_obj = sdk.upload_content(aoi_obj_path, AreaOfInterest.DATA_TYPE, 'geojson', False)
+
+    # create analysis context
+    context = self._helper_create_analysis_context(analysis, aoi_obj_id=aoi_obj.meta.obj_id)
+
+    location, bbox = analysis._determine_domain(context)
+    assert location == (103.73851217742049, 1.3401828018998154)
+    assert bbox.west == 103.72988018670357
+    assert bbox.north == 1.3488615392842194
+    assert bbox.east == 103.74714410739787
+    assert bbox.south == 1.331503975344926
+
+    # copy/create areas to wd path
+    shutil.copyfile(aoi_obj_path, os.path.join(self._wd_path, 'aoi.geojson'))
+    with open(os.path.join(self._wd_path, 'domain.geojson'), 'w') as f:
+        json.dump({
+            'type': 'FeatureCollection',
+            'features': [{
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [[
+                        (bbox.west, bbox.south), (bbox.west, bbox.north), (bbox.east, bbox.north),
+                        (bbox.east, bbox.south), (bbox.west, bbox.south)
+                    ]]
+                }
+            }]
+        }, f, indent=2)
+
+    bld_obj = analysis._prepare_input_data(context, self._scene, bbox.as_shapely_polygon())
+    assert bld_obj is not None
+
+
+def test_miucs_scout_submit_job(self):
+    analysis = MicroscaleUrbanClimateScoutAnalysis()
+    sdk = self._context
+
+    # upload area of interest to DOR
+    aoi_obj_path = os.path.join(nextcloud_path, 'duct_dots', 'aoi.geojson')
+    aoi_obj = sdk.upload_content(aoi_obj_path, AreaOfInterest.DATA_TYPE, 'geojson', False)
+
+    # create analysis context
+    context = self._helper_create_analysis_context(analysis, aoi_obj_id=aoi_obj.meta.obj_id)
+
+    location, bbox = analysis._determine_domain(context)
+    assert location == (103.73851217742049, 1.3401828018998154)
+    assert bbox.west == 103.72988018670357
+    assert bbox.north == 1.3488615392842194
+    assert bbox.east == 103.74714410739787
+    assert bbox.south == 1.331503975344926
+
+    # copy/create areas to wd path
+    shutil.copyfile(aoi_obj_path, os.path.join(self._wd_path, 'aoi.geojson'))
+    with open(os.path.join(self._wd_path, 'domain.geojson'), 'w') as f:
+        json.dump({
+            'type': 'FeatureCollection',
+            'features': [{
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [[
+                        (bbox.west, bbox.south), (bbox.west, bbox.north), (bbox.east, bbox.north),
+                        (bbox.east, bbox.south), (bbox.west, bbox.south)
+                    ]]
+                }
+            }]
+        }, f, indent=2)
+
+    bld_obj = analysis._prepare_input_data(context, self._scene, bbox.as_shapely_polygon())
+    assert bld_obj is not None
